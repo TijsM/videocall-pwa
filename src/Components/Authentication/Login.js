@@ -6,6 +6,7 @@ function Login() {
     <div>
       <h1>login page</h1>
       no acount yet,  <Link to="/register">Register</Link>
+      continue without acc <Link to="/Home">Home</Link>
     </div>
   );
 }

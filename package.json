@@ -7,10 +7,13 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "firebase": "^7.14.1",
+    "node-sass": "^4.13.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
+    "simple-peer": "^9.6.2",
+    "socket.io-client": "^2.3.0",
     "workbox-build": "^5.1.2",
     "workbox-precaching": "^5.1.2"
   },

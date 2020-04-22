@@ -3,11 +3,12 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
 
 import Login from './Components/Authentication/Login'
 import Register from './Components/Authentication/Register'
+import Home from './Components/Rooms/Home'
+import Room from './Components/Rooms/Room'
 
 
 function App() {
@@ -21,6 +22,12 @@ function App() {
         <Switch>
           <Route path="/register">
             <Register />
+          </Route>
+          <Route path="/home">
+            <Home />
+          </Route>
+          <Route path="/room">
+            <Room />
           </Route>
           <Route path="/">
             <Login />
