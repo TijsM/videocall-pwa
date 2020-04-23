@@ -7,13 +7,23 @@ function Room({ isOwner }) {
   const [roomOwnerId, setRoomOwnerId] = useState();
   const [roomVisitorId, setRoomVisitorId] = useState();
 
+  const [yourVideoStream, setYourVideoStream] = useState();
+
+  const yourVideo = useRef();
+  const partnerVideo = useRef();
   const socket = useRef();
-
   useEffect(() => {
-    //excecuts one time
-
     socket.current = io.connect("http://localhost:8000");
-    // socket.current = io.connect("https://video-chat-backend.glitch.me/");
+
+    navigator.mediaDevices
+      .getUserMedia({video: true, audio: false})
+      .then(stream => {
+        setYourVideoStream(stream)
+        if(yourVideo.current){
+          yourVideo.current.srcObject = stream
+        }
+      })
+
 
     socket.current.on('yourSocketId',(id) => {
       setYourSocketId(id)
@@ -47,12 +57,16 @@ function Room({ isOwner }) {
       })
     }
 
-   
-
-    
 
     // eslint-disable-next-line
   }, []);
+
+
+
+  let yourVideoEelement
+  if(yourVideoStream){
+    yourVideoEelement = <video playsInline ref={yourVideo} autoPlay />
+  }
 
   return (
     <div>
@@ -61,6 +75,9 @@ function Room({ isOwner }) {
       <div>room owner id: {roomOwnerId}</div>
       <div>room visitor id: {roomVisitorId}</div>
       <div>is owner: {isOwner.toString()}</div>
+      
+      <h2>your video:</h2>
+      {yourVideoEelement}
     </div>
   );
 }
