@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import io from "socket.io-client";
 import Peer from "simple-peer";
 
+import "./Room.scss";
+
 function Room({ isOwner }) {
   const [yourSocketId, setYourSocketId] = useState();
   const [partnerSocketId, setPartnerSocketid] = useState();
@@ -65,11 +67,10 @@ function Room({ isOwner }) {
       });
     }
 
-
-    socket.current.on('hey', data => {
-      console.log('in hey', data.signal)
-      setPartnerSignal(data.signal)
-    })  
+    socket.current.on("hey", (data) => {
+      console.log("in hey", data.signal);
+      setPartnerSignal(data.signal);
+    });
 
     // eslint-disable-next-line
   }, []);
@@ -98,38 +99,51 @@ function Room({ isOwner }) {
     });
 
     socket.current.on("callAccepted", (signal) => {
-      console.log('call accepted')
+      console.log("call accepted");
       setCallAccepted(true);
       peer.signal(signal);
     });
   };
 
   const acceptCall = () => {
-    console.log('in acceptCall method')
+    console.log("in acceptCall method");
     setCallAccepted(true);
 
     const peer = new Peer({
       initiator: false,
       trickle: false,
-      stream: yourVideoStream
-    })
+      stream: yourVideoStream,
+    });
 
-    peer.on('signal', data => {
-      socket.current.emit('acceptCall',{
+    peer.on("signal", (data) => {
+      socket.current.emit("acceptCall", {
         signal: data,
-        to: roomOwnerId
+        to: roomOwnerId,
+      });
+    });
+
+    peer.on("stream", (stream) => {
+      console.log("stream", stream);
+      console.log(partnerVideo);
+
+      partnerVideo.current.srcObject = stream;
+    });
+
+    peer.signal(partnerSignal);
+  };
+
+  const copyLink = () => {
+    navigator.clipboard
+      .writeText("http://localhost:3000/visitroom")
+      .then(() => {
+        console.log("Text copied to clipboard");
+        alert("coppied!! share the coppied link with somebody");
       })
-    })
-
-    peer.on('stream', stream => {
-      console.log('stream', stream)
-      console.log(partnerVideo)
-
-      partnerVideo.current.srcObject = stream
-    })
-
-    peer.signal(partnerSignal)
-  }
+      .catch((err) => {
+        console.log("Could not copy text: ", err);
+        alert("ERROR" + err);
+      });
+  };
 
   let yourVideoElement;
   if (yourVideoStream) {
@@ -141,9 +155,34 @@ function Room({ isOwner }) {
     partnerVideoElement = <video playsInline ref={partnerVideo} autoPlay />;
   }
 
+  if (
+    isOwner &&
+    yourSocketId &&
+    partnerSocketId &&
+    partnerSocketId !== "not online"
+  ) {
+    startConversation();
+  }
+
   return (
     <div>
-      <h1> chatroom</h1>
+      <h1>{isOwner ? "YOU ARE THE ROOM OWNER" : "YOU ARE THE VISITOR"}</h1>
+
+      {isOwner && <button onClick={copyLink}>share this room</button>}
+
+      {partnerSignal ? (
+        <button onClick={acceptCall}>start call with room owner</button>
+      ) : (
+        <h2>the room owner is not online - please wait</h2>
+      )}
+
+      <h2>your video:</h2>
+
+      {yourVideoElement}
+      <h2>partner video:</h2>
+      {partnerVideoElement}
+
+      <h2>dev info</h2>
       <div>your socket: {yourSocketId}</div>
       <div>partner socket: {partnerSocketId}</div>
       <hr></hr>
@@ -151,14 +190,7 @@ function Room({ isOwner }) {
       <div>room visitor id: {roomVisitorId}</div>
       <hr></hr>
       <div>is owner: {isOwner.toString()}</div>
-      {isOwner && yourSocketId && partnerSocketId && partnerSocketId !== "not online" && (
-        <button onClick={startConversation}>startConversation</button>
-      )}
-
-      {partnerSignal&& <button onClick={acceptCall}>start call with room owner</button>}
-      <h2>your video:</h2>
-      {yourVideoElement}
-      {partnerVideoElement}
+      <hr></hr>
     </div>
   );
 }
