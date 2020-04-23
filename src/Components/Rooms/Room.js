@@ -4,6 +4,8 @@ import Peer from "simple-peer";
 
 function Room({ isOwner }) {
   const [yourSocketId, setYourSocketId] = useState();
+  const [partnerSocketId, setPartnerSocketid] = useState();
+
   const [roomOwnerId, setRoomOwnerId] = useState();
   const [roomVisitorId, setRoomVisitorId] = useState();
 
@@ -38,28 +40,32 @@ function Room({ isOwner }) {
 
     socket.current.on('users', users => {
       if(isOwner){
-        setRoomVisitorId(users.visitorId?users.visitorId:'the user is not yet online')
+        setRoomVisitorId(users.visitorId?users.visitorId:'the visitor is not yet online')
+        setPartnerSocketid(users.visitorId?users.visitorId:'the visitor is not yet online')
       }
       else{
         setRoomOwnerId(users.ownerId?users.ownerId:'the room owner is not yet online')
+        setPartnerSocketid(users.ownerId?users.ownerId:'the room owner is not yet online')
       }
     })
 
     if(isOwner){
       socket.current.on('visitorOnline', (id) => {
         setRoomVisitorId(id)
+        setPartnerSocketid(id)
         console.log('the visitor is online!!')
       })
     }else{
       socket.current.on('ownerOnline', (id) => {
         setRoomOwnerId(id)
+        setPartnerSocketid(id)
         console.log('the owner is online!!')
       })
     }
-
-
     // eslint-disable-next-line
   }, []);
+
+
 
 
 
@@ -72,6 +78,8 @@ function Room({ isOwner }) {
     <div>
       <h1> chatroom</h1>
       <div>your socket: {yourSocketId}</div>
+      <div>partner socket: {partnerSocketId}</div>
+
       <div>room owner id: {roomOwnerId}</div>
       <div>room visitor id: {roomVisitorId}</div>
       <div>is owner: {isOwner.toString()}</div>
