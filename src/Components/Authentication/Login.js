@@ -6,7 +6,10 @@ function Login() {
     <div>
       <h1>login page</h1>
       no acount yet,  <Link to="/register">Register</Link>
-      continue without acc <Link to="/Home">Home</Link>
+      <hr></hr>
+      continue without acc <Link to="/home">Home</Link>
+      <hr></hr>
+      visit a room as a guest <Link to="/visitroom">visit</Link>
     </div>
   );
 }

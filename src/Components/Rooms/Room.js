@@ -105,6 +105,7 @@ function Room({ isOwner }) {
   };
 
   const acceptCall = () => {
+    console.log('in acceptCall method')
     setCallAccepted(true);
 
     const peer = new Peer({
@@ -123,6 +124,8 @@ function Room({ isOwner }) {
     peer.on('stream', stream => {
       console.log('stream', stream)
       console.log(partnerVideo)
+
+      partnerVideo.current.srcObject = stream
     })
 
     peer.signal(partnerSignal)
