@@ -4,8 +4,6 @@ import "firebase/firestore";
 import {firebaseConfig} from './secrets'
 
 
-
-
 firebase.initializeApp(firebaseConfig);
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();

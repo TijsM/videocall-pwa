@@ -4,6 +4,7 @@ import {
   authWithGoogle,
   signUpWithEmail,
   authWithFacebook,
+  firestore,
 } from "../../firebase";
 
 import "./Auth.scss";
@@ -12,8 +13,33 @@ function Register() {
   const [email, setEmail] = useState();
   const [userName, setUserName] = useState();
   const [password, setpassword] = useState();
-  const [confirmPassword, setConfirmPassword] = useState();
+
   const history = useHistory();
+
+  const storeUserInFirestore = (email, userName) => {
+    firestore
+      .collection("users")
+      .add({
+        email: email,
+        userName: userName,
+      })
+      .then((docref) => {
+        console.log("written to firstore with id: ", docref);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  const storeUserInLocalStorage = (email, userName) => {
+    localStorage.setItem(
+      "user",
+      JSON.stringify({
+        email: email,
+        userName: userName,
+      })
+    );
+  };
 
   const register = (event) => {
     event.preventDefault();
@@ -21,7 +47,10 @@ function Register() {
       .then((data) => {
         console.log("authdata", data);
         localStorage.setItem("authData", JSON.stringify(data));
+        storeUserInLocalStorage(email, userName);
         history.push("/home");
+
+        storeUserInFirestore(email, userName);
       })
       .catch((error) => {
         console.error(error);
@@ -33,8 +62,18 @@ function Register() {
       .then((data) => {
         console.log("authdata", data);
         localStorage.setItem("authData", JSON.stringify(data));
+        storeUserInLocalStorage(
+          data.additionalUserInfo.profile.email,
+          data.additionalUserInfo.profile.name
+        );
         history.push("/home");
+
+        storeUserInFirestore(
+          data.additionalUserInfo.profile.email,
+          data.additionalUserInfo.profile.name
+        );
       })
+
       .catch((error) => {
         console.error(error);
       });
@@ -45,7 +84,15 @@ function Register() {
       .then((data) => {
         console.log("authdata", data);
         localStorage.setItem("authData", JSON.stringify(data));
+        storeUserInLocalStorage(
+          data.additionalUserInfo.profile.email,
+          data.additionalUserInfo.profile.name
+        );
         history.push("/home");
+        storeUserInFirestore(
+          data.additionalUserInfo.profile.email,
+          data.additionalUserInfo.profile.name
+        );
       })
       .catch((error) => {
         console.error(error);
@@ -68,10 +115,7 @@ function Register() {
           onChange={(val) => setpassword(val.target.value)}
           placeholder="password"
         ></input>
-        <input
-          onChange={(val) => setConfirmPassword(val.target.value)}
-          placeholder="confirm password"
-        ></input>
+
         <button onClick={(e) => register(e)}> confirm</button>
         <hr></hr>
         <br></br>
