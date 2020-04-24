@@ -4,8 +4,8 @@ import {
   authWithGoogle,
   signUpWithEmail,
   authWithFacebook,
-  firestore,
 } from "../../firebase";
+import {storeUserInFirestore, storeUserInLocalStorage} from '../../helpers'
 
 import "./Auth.scss";
 
@@ -15,31 +15,6 @@ function Register() {
   const [password, setpassword] = useState();
 
   const history = useHistory();
-
-  const storeUserInFirestore = (email, userName) => {
-    firestore
-      .collection("users")
-      .add({
-        email: email,
-        userName: userName,
-      })
-      .then((docref) => {
-        console.log("written to firstore with id: ", docref);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
-
-  const storeUserInLocalStorage = (email, userName) => {
-    localStorage.setItem(
-      "user",
-      JSON.stringify({
-        email: email,
-        userName: userName,
-      })
-    );
-  };
 
   const register = (event) => {
     event.preventDefault();

@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { authWithGoogle, singInWithEmail, authWithFacebook } from "../../firebase";
+import {
+  authWithGoogle,
+  singInWithEmail,
+  authWithFacebook,
+  firestore,
+} from "../../firebase";
+import { storeUserInLocalStorage } from "../../helpers";
 
 import "./Auth.scss";
 
@@ -10,11 +16,24 @@ function Login() {
   const [password, setpassword] = useState();
 
   const login = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     singInWithEmail(email, password)
       .then((data) => {
         console.log("authdata", data);
         localStorage.setItem("authData", JSON.stringify(data));
+
+        firestore
+          .collection("users")
+          .where("email", "==", email)
+          .get()
+          .then((doc) => {
+            console.log(doc.docs[0].data());
+            storeUserInLocalStorage(
+              doc.docs[0].data().email,
+              doc.docs[0].data().userName
+            );
+          });
+
         history.push("/home");
       })
       .catch((error) => {
@@ -27,6 +46,10 @@ function Login() {
       .then((data) => {
         console.log("authdata", data);
         localStorage.setItem("authData", JSON.stringify(data));
+        storeUserInLocalStorage(
+          data.additionalUserInfo.profile.email,
+          data.additionalUserInfo.profile.name
+        );
         history.push("/home");
       })
       .catch((error) => {
@@ -39,6 +62,10 @@ function Login() {
       .then((data) => {
         console.log("authdata", data);
         localStorage.setItem("authData", JSON.stringify(data));
+        storeUserInLocalStorage(
+          data.additionalUserInfo.profile.email,
+          data.additionalUserInfo.profile.name
+        );
         history.push("/home");
       })
       .catch((error) => {
@@ -66,7 +93,7 @@ function Login() {
       </div>
 
       <div className="changeAuthMethod">
-      No acount yet? create one: <Link to="/register">Register</Link>
+        No acount yet? create one: <Link to="/register">Register</Link>
       </div>
     </div>
   );
