@@ -21,7 +21,8 @@ function Room({ isOwner }) {
   const partnerVideo = useRef();
   const socket = useRef();
   useEffect(() => {
-    socket.current = io.connect("http://localhost:8001");
+    socket.current = io.connect("https://videocall-pwa.glitch.me/");
+    // socket.current = io.connect("http://localhost:8001");
 
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: false })
@@ -173,7 +174,7 @@ function Room({ isOwner }) {
       {partnerSignal ? (
         <button onClick={acceptCall}>start call with room owner</button>
       ) : (
-        <h2>the room owner is not online - please wait</h2>
+        <h2>the other person is not yet online</h2>
       )}
 
       <h2>your video:</h2>

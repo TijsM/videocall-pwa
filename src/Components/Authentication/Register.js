@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import {authWithGoogle, signUpWithEmail} from '../../firebase'
 
 import "./Auth.scss";
 
@@ -16,6 +17,7 @@ function Register() {
     console.log("password", password);
     console.log("confirmPassword", confirmPassword);
     event.preventDefault();
+    signUpWithEmail(email, password)
   };
 
   return (
@@ -39,7 +41,12 @@ function Register() {
           placeholder="confirm password"
         ></input>
         <button onClick={(e) => register(e)}> confirm</button>
+        <hr></hr>
+        <br></br>
       </form>
+      <button onClick={authWithGoogle}>sign up with google</button>
+
+
       <div>
         already have an account, <Link to="/">login</Link>
       </div>
