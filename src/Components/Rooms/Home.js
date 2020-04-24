@@ -58,26 +58,18 @@ function Home() {
         <div key={room} className="roomContainer">
           <div>{room}</div>
           <div>
-            <Link to="/room">Go to room</Link>
+            <Link to={`/room/${user.userName.split(" ").join("")}/${room}`}>Go to room</Link>
           </div>
         </div>
       );
     });
   }
 
-  // const roomJsx = (
-  //   <div className="roomContainer">
-  //     <div>roomname</div>
-  //     <div>
-  //       <Link to="/room">Go to room</Link>
-  //     </div>
-  //   </div>
-  // );
 
   return (
     <div>
       <h1>Welcome {user && user.userName}</h1>
-      <button onClick={logout}>LOGOUT</button>
+     
       <form>
         <input
           onChange={(val) => setNewListName(val.target.value)}
@@ -89,6 +81,7 @@ function Home() {
         <h2>your rooms:</h2>
         {roomsJsx}
       </section>
+      <button style={{marginTop: 200}} onClick={logout}>LOGOUT</button>
     </div>
   );
 }

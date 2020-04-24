@@ -26,8 +26,8 @@ function App() {
           <Route path="/home">
             <Home />
           </Route>
-          <Route path="/room" render={() => <Room isOwner={true}/>}/>
-          <Route path="/visitroom" render={() => <Room isOwner={false}/>}/>
+          <Route path="/room/:roomownername/:roomname" render={() => <Room isOwner={true}/>}/>
+          <Route path="/visitroom/:roomownername/:roomname" render={() => <Room isOwner={false}/>}/>
           <Route path="/">
             <Login />
           </Route>

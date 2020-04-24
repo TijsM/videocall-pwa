@@ -28,4 +28,3 @@ export const singInWithEmail = (email, password) => {
   return auth.signInWithEmailAndPassword(email, password)
 };
 
-

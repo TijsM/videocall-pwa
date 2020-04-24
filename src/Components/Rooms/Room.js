@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import io from "socket.io-client";
 import Peer from "simple-peer";
+import {useParams} from 'react-router-dom'
 
 import "./Room.scss";
 
@@ -20,6 +21,10 @@ function Room({ isOwner }) {
   const yourVideo = useRef();
   const partnerVideo = useRef();
   const socket = useRef();
+
+  const {roomname, roomownername} = useParams()
+  console.log(roomname)
+  console.log(roomownername)
   useEffect(() => {
     socket.current = io.connect("https://videocall-pwa.glitch.me/");
     // socket.current = io.connect("http://localhost:8001");
@@ -135,7 +140,7 @@ function Room({ isOwner }) {
 
   const copyLink = () => {
     navigator.clipboard
-      .writeText("http://localhost:3000/visitroom")
+      .writeText(`http://localhost:3000/visitroom/${roomownername}/${roomname}`)
       .then(() => {
         console.log("Text copied to clipboard");
         alert("coppied!! share the coppied link with somebody");
@@ -167,7 +172,7 @@ function Room({ isOwner }) {
 
   return (
     <div>
-      <h1>{isOwner ? "YOU ARE THE ROOM OWNER" : "YOU ARE THE VISITOR"}</h1>
+      <h1>{isOwner ? "YOU ARE THE OWNER OF THIS ROOM: " : "YOU ARE THE VISITOR OF THE ROOM: "} {roomname}</h1>
 
       {isOwner && <button onClick={copyLink}>share this room</button>}
 
