@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import {authWithGoogle, signUpWithEmail} from '../../firebase'
+import { Link, useHistory } from "react-router-dom";
+import { authWithGoogle, signUpWithEmail } from "../../firebase";
 
 import "./Auth.scss";
 
@@ -9,15 +9,32 @@ function Register() {
   const [userName, setUserName] = useState();
   const [password, setpassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
+  const history = useHistory();
 
   const register = (event) => {
-    console.log("here");
-    console.log("email", email);
-    console.log("username", userName);
-    console.log("password", password);
-    console.log("confirmPassword", confirmPassword);
     event.preventDefault();
     signUpWithEmail(email, password)
+      .then((data) => {
+        console.log("authdata", data);
+        localStorage.setItem("authData", JSON.stringify(data));
+        history.push("/home");
+
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const signUpWithGoogle = () => {
+    authWithGoogle()
+      .then((data) => {
+        console.log("authdata", data);
+        localStorage.setItem("authData", JSON.stringify(data));
+        history.push("/home");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
@@ -44,10 +61,11 @@ function Register() {
         <hr></hr>
         <br></br>
       </form>
-      <button onClick={authWithGoogle}>sign up with google</button>
+      <div className="socialsLogin">
+        <button onClick={signUpWithGoogle}>sign up with google</button>
+      </div>
 
-
-      <div>
+      <div className="changeAuthMethod">
         already have an account, <Link to="/">login</Link>
       </div>
     </div>

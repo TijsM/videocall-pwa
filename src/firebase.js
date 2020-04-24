@@ -2,6 +2,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 
+
 var firebaseConfig = {
   apiKey: "AIzaSyCtsL2akWayjxJvdR1Up-M5JJziDFfJzoo",
   authDomain: "videocall-pwa.firebaseapp.com",
@@ -19,23 +20,15 @@ export const firestore = firebase.firestore();
 
 const provider = new firebase.auth.GoogleAuthProvider();
 
+
 export const authWithGoogle = () => {
-  auth.signInWithPopup(provider).then((data) => {
-    console.log("authdata", data);
-    localStorage.setItem("authData", JSON.stringify(data));
-  }).catch(error => {console.error(error)});
+  return auth.signInWithPopup(provider)
 };
 
 export const signUpWithEmail = (email, password) => {
-  auth.createUserWithEmailAndPassword(email, password).then((data) => {
-    console.log("authdata", data);
-    localStorage.setItem("authData", JSON.stringify(data));
-  }).catch(error => {console.error(error)});
+  return auth.createUserWithEmailAndPassword(email, password)
 };
 
 export const singInWithEmail = (email, password) => {
-  auth.signInWithEmailAndPassword(email, password).then((data) => {
-    console.log("authdata", data);
-    localStorage.setItem("authData", JSON.stringify(data));
-  }).catch(error => {console.error(error)});
+  return auth.signInWithEmailAndPassword(email, password)
 };
