@@ -1,11 +1,13 @@
 import { firestore } from "./firebase";
 
 export const storeUserInFirestore = (email, userName) => {
+  console.log('here')
   firestore
-    .collection("users")
-    .add({
+    .collection("users").doc(email)
+    .set({
       email: email,
       userName: userName,
+      rooms:[]
     })
     .then((docref) => {
       console.log("written to firstore with id: ", docref);
