@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { authWithGoogle, singInWithEmail } from "../../firebase";
+import { authWithGoogle, singInWithEmail, authWithFacebook } from "../../firebase";
 
 import "./Auth.scss";
 
@@ -34,6 +34,18 @@ function Login() {
       });
   };
 
+  const signInWithFacebook = () => {
+    authWithFacebook()
+      .then((data) => {
+        console.log("authdata", data);
+        localStorage.setItem("authData", JSON.stringify(data));
+        history.push("/home");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   return (
     <div>
       <h1>login page</h1>
@@ -50,6 +62,7 @@ function Login() {
       </form>
       <div className="socialsLogin">
         <button onClick={singInWithGoogle}>sign in with google</button>
+        <button onClick={signInWithFacebook}>sign in with facebook</button>
       </div>
 
       <div className="changeAuthMethod">

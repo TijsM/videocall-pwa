@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { authWithGoogle, signUpWithEmail } from "../../firebase";
+import {
+  authWithGoogle,
+  signUpWithEmail,
+  authWithFacebook,
+} from "../../firebase";
 
 import "./Auth.scss";
 
@@ -18,7 +22,6 @@ function Register() {
         console.log("authdata", data);
         localStorage.setItem("authData", JSON.stringify(data));
         history.push("/home");
-
       })
       .catch((error) => {
         console.error(error);
@@ -27,6 +30,18 @@ function Register() {
 
   const signUpWithGoogle = () => {
     authWithGoogle()
+      .then((data) => {
+        console.log("authdata", data);
+        localStorage.setItem("authData", JSON.stringify(data));
+        history.push("/home");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const signupwithFacebook = () => {
+    authWithFacebook()
       .then((data) => {
         console.log("authdata", data);
         localStorage.setItem("authData", JSON.stringify(data));
@@ -63,6 +78,7 @@ function Register() {
       </form>
       <div className="socialsLogin">
         <button onClick={signUpWithGoogle}>sign up with google</button>
+        <button onClick={signupwithFacebook}>sign up with facebook</button>
       </div>
 
       <div className="changeAuthMethod">
