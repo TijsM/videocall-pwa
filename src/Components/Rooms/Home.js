@@ -5,7 +5,7 @@ import { firestore } from "../../firebase";
 import "./Home.scss";
 
 function Home() {
-  const [newListName, setNewListName] = useState();
+  const [newRoomName, setNewRoomName] = useState();
   const [user, setUser] = useState();
   const [rooms, setRooms] = useState();
 
@@ -28,13 +28,13 @@ function Home() {
 
   const confirm = (event) => {
     event.preventDefault();
-    console.log("creating", newListName);
+    console.log("creating", newRoomName);
 
     const userRef = firestore.collection("users").doc(user.email);
     let _rooms;
     userRef.get().then((prom) => {
       _rooms = prom.data().rooms;
-      _rooms.push(newListName);
+      _rooms.push(newRoomName);
       setRooms(_rooms);
       userRef.set(
         {
@@ -43,6 +43,10 @@ function Home() {
         { merge: true }
       );
     });
+
+    setNewRoomName('')
+
+    
   };
 
   const logout = () => {
@@ -72,8 +76,8 @@ function Home() {
      
       <form>
         <input
-          onChange={(val) => setNewListName(val.target.value)}
-          placeholder="email"
+          onChange={(val) => setNewRoomName(val.target.value)}
+          placeholder="new room name"
         ></input>
         <button onClick={(e) => confirm(e)}> confirm</button>
       </form>
