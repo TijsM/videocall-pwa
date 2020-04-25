@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { firestore } from "../../firebase";
-
+import RequestNotifications from './RequistNotifications'
 import "./Home.scss";
 
 function Home() {
@@ -110,6 +110,7 @@ function Home() {
         {roomsJsx}
       </section>
       <button style={{marginTop: 200}} onClick={logout}>LOGOUT</button>
+      <RequestNotifications/>
     </div>
   );
 }
