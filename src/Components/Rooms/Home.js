@@ -43,11 +43,32 @@ function Home() {
         { merge: true }
       );
     });
-
     setNewRoomName('')
-
-    
   };
+
+  const removeRoom = (room) => {
+    console.log('deleting', room.room)
+
+    const userRef = firestore.collection("users").doc(user.email);
+    let _rooms;
+    userRef.get().then((prom) => {
+      _rooms = prom.data().rooms;
+      const index = _rooms.indexOf(room.room)
+      if(index > -1){
+        _rooms.splice(index, 1);
+      }
+      setRooms(_rooms);
+      userRef.set(
+        {
+          rooms: _rooms,
+        },
+        { merge: true }
+      );
+    });
+
+
+
+  }
 
   const logout = () => {
     localStorage.setItem("authData", null);
@@ -62,6 +83,7 @@ function Home() {
         <div key={room} className="roomContainer">
           <div>{room}</div>
           <div>
+            <button onClick={() => removeRoom({room})}>remove room</button>
             <Link to={`/room/${user.userName.split(" ").join("")}/${room}`}>Go to room</Link>
           </div>
         </div>

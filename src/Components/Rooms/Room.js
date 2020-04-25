@@ -26,8 +26,8 @@ function Room({ isOwner }) {
   console.log(roomname)
   console.log(roomownername)
   useEffect(() => {
-    socket.current = io.connect("https://videocall-pwa.glitch.me/");
-    // socket.current = io.connect("http://localhost:8001");
+    // socket.current = io.connect("https://videocall-pwa.glitch.me/");
+    socket.current = io.connect("http://localhost:8000");
 
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: false })
