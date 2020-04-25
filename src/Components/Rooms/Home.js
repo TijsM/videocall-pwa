@@ -15,14 +15,16 @@ function Home() {
     const _user = JSON.parse(localStorage.getItem("user"));
     if (_user) {
       setUser(_user);
+
+      const userRef = firestore.collection("users").doc(_user.email);
+      userRef.get().then((prom) => {
+        setRooms(prom.data().rooms);
+      });
     } else {
-      history.push("/");
+      history.push("/login");
     }
 
-    const userRef = firestore.collection("users").doc(_user.email);
-    userRef.get().then((prom) => {
-      setRooms(prom.data().rooms);
-    });
+   
     // eslint-disable-next-line
   }, []);
 
@@ -73,7 +75,7 @@ function Home() {
   const logout = () => {
     localStorage.setItem("authData", null);
     localStorage.setItem("user", null);
-    history.push("/");
+    history.push("/login");
   };
 
   let roomsJsx;
