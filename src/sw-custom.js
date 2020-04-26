@@ -34,29 +34,50 @@ workbox.routing.registerRoute(
 
 workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
 
-
 /* 
 -----
 push notifications
 -----
 */
 self.addEventListener("push", function (e) {
-  var options = {
-    body: "This notification was generated from a push!",
-    icon: "images/example.png",
-    vibrate: [100, 50, 100],
-    data: {
-      dateOfArrival: Date.now(),
-      primaryKey: "2",
-    },
-    actions: [
-      {
-        action: "explore",
-        title: "Explore this new world",
-        icon: "images/checkmark.png",
+  //the payload that the backend added - this can be used to have different notifications
+  const payload = JSON.parse(e.data.text())
+  console.log(payload);
+  let options;
+  if (payload.name === "inRoom") {
+    
+    options = {
+      body: "Open the app and say hi!",
+      icon: "images/example.png",
+      vibrate: [300, 50, 100],
+      data: {
+        dateOfArrival: Date.now(),
+        primaryKey: "2",
       },
-      { action: "close", title: "Close", icon: "images/xmark.png" },
-    ],
-  };
-  e.waitUntil(self.registration.showNotification("HELLO WORLD", options));
+    };
+
+    e.waitUntil(
+      self.registration.showNotification(`someboy is in ${payload.roomName}`, options)
+    );
+  } else {
+    options = {
+      body: "This notification was generated from a push!",
+      icon: "images/example.png",
+      vibrate: [100, 50, 100],
+      data: {
+        dateOfArrival: Date.now(),
+        primaryKey: "2",
+      },
+      actions: [
+        {
+          action: "explore",
+          title: "Explore this new world",
+          icon: "images/checkmark.png",
+        },
+        { action: "close", title: "Close", icon: "images/xmark.png" },
+      ],
+    };
+
+    e.waitUntil(self.registration.showNotification("HELLO WORLD", options));
+  }
 });

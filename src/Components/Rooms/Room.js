@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import io from "socket.io-client";
 import Peer from "simple-peer";
-import {useParams} from 'react-router-dom'
+import { useParams } from "react-router-dom";
 
 import "./Room.scss";
 
@@ -22,12 +22,12 @@ function Room({ isOwner }) {
   const partnerVideo = useRef();
   const socket = useRef();
 
-  const {roomname, roomownername} = useParams()
-  console.log(roomname)
-  console.log(roomownername)
+  const { roomname, roomownername } = useParams();
+  console.log(roomname);
+  console.log(roomownername);
   useEffect(() => {
     // socket.current = io.connect("https://videocall-pwa.glitch.me/");
-    socket.current = io.connect("http://localhost:8000");
+    socket.current = io.connect("http://localhost:8001");
 
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: false })
@@ -78,6 +78,19 @@ function Room({ isOwner }) {
       setPartnerSignal(data.signal);
     });
 
+    if (!isOwner) {
+      console.log("from fetch: ", roomname, roomownername);
+      fetch("http://localhost:8001/sendNotificationEnteredRoom", {
+        method: "post",
+        headers:{
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          roomname,
+          roomownername
+        }),
+      });
+    }
     // eslint-disable-next-line
   }, []);
 
@@ -172,7 +185,12 @@ function Room({ isOwner }) {
 
   return (
     <div>
-      <h1>{isOwner ? "YOU ARE THE OWNER OF THIS ROOM: " : "YOU ARE THE VISITOR OF THE ROOM: "} {roomname}</h1>
+      <h1>
+        {isOwner
+          ? "YOU ARE THE OWNER OF THIS ROOM: "
+          : "YOU ARE THE VISITOR OF THE ROOM: "}{" "}
+        {roomname}
+      </h1>
 
       {isOwner && <button onClick={copyLink}>share this room</button>}
 

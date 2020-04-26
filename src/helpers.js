@@ -8,10 +8,10 @@ export const storeUserInFirestore = (email, userName) => {
       email: email,
       userName: userName,
       rooms:[],
-      notificationSubscription:{}
+      notificationSubscription:null
     })
     .then((docref) => {
-      console.log("written to firstore with id: ", docref);
+      console.log("written to firestore with id: ", docref);
     })
     .catch((err) => {
       console.error(err);
