@@ -4,6 +4,11 @@ importScripts(
   "https://storage.googleapis.com/workbox-cdn/releases/3.5.0/workbox-sw.js"
 );
 
+/* 
+-----
+static caching
+-----
+*/
 self.addEventListener("install", (event) => {
   console.log("[Service Worker] installing Service Worker ....", event);
   self.skipWaiting();
@@ -29,6 +34,12 @@ workbox.routing.registerRoute(
 
 workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
 
+
+/* 
+-----
+push notifications
+-----
+*/
 self.addEventListener("push", function (e) {
   var options = {
     body: "This notification was generated from a push!",
@@ -47,5 +58,5 @@ self.addEventListener("push", function (e) {
       { action: "close", title: "Close", icon: "images/xmark.png" },
     ],
   };
-  e.waitUntil(self.registration.showNotification("Hello world!", options));
+  e.waitUntil(self.registration.showNotification("HELLO WORLD", options));
 });

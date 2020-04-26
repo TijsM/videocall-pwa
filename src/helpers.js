@@ -7,7 +7,8 @@ export const storeUserInFirestore = (email, userName) => {
     .set({
       email: email,
       userName: userName,
-      rooms:[]
+      rooms:[],
+      notificationSubscription:{}
     })
     .then((docref) => {
       console.log("written to firstore with id: ", docref);
