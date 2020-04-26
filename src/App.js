@@ -5,6 +5,7 @@ import Login from "./Components/Authentication/Login";
 import Register from "./Components/Authentication/Register";
 import Home from "./Components/Rooms/Home";
 import Room from "./Components/Rooms/Room";
+import SendNotificationToAll from './Components/Admin/SendNotificationToAll'
 
 function App() {
   return (
@@ -18,6 +19,9 @@ function App() {
           </Route>
           <Route path="/login">
             <Login />
+          </Route>
+          <Route path='/sendNotificationToAll'>
+            <SendNotificationToAll/>
           </Route>
           <Route
             path="/room/:roomownername/:roomname"

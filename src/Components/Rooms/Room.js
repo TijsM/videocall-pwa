@@ -79,7 +79,6 @@ function Room({ isOwner }) {
     });
 
     if (!isOwner) {
-      console.log("from fetch: ", roomname, roomownername);
       fetch("http://localhost:8001/sendNotificationEnteredRoom", {
         method: "post",
         headers:{

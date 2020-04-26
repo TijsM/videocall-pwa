@@ -40,12 +40,12 @@ push notifications
 -----
 */
 self.addEventListener("push", function (e) {
+
   //the payload that the backend added - this can be used to have different notifications
   const payload = JSON.parse(e.data.text())
-  console.log(payload);
+  console.log('payload', payload);
   let options;
   if (payload.name === "inRoom") {
-    
     options = {
       body: "Open the app and say hi!",
       icon: "images/example.png",
@@ -59,7 +59,23 @@ self.addEventListener("push", function (e) {
     e.waitUntil(
       self.registration.showNotification(`someboy is in ${payload.roomName}`, options)
     );
-  } else {
+  }
+  else if (payload.name === "toAllFromAdmin"){
+    options = {
+      body: payload.body,
+      icon: "images/example.png",
+      vibrate: [300, 50, 100],
+      data: {
+        dateOfArrival: Date.now(),
+        primaryKey: "2",
+      },
+    };
+
+    e.waitUntil(
+      self.registration.showNotification(payload.title, options)
+    );
+  } 
+  else {
     options = {
       body: "This notification was generated from a push!",
       icon: "images/example.png",
