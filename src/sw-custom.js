@@ -18,6 +18,11 @@ self.addEventListener("activate", function (event) {
   console.log("[Service Worker] Activating Service Worker ....", event);
 });
 
+
+workbox.precaching.precacheAndRoute([
+  {url: '/index.html', revision: '383676'},
+]);
+
 // JS, CSS caching
 workbox.routing.registerRoute(
   /\.(?:js|css)$/,
@@ -32,7 +37,15 @@ workbox.routing.registerRoute(
   })
 );
 
-workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
+//dynamic caching
+workbox.routing.registerRoute(
+  /.*(?:googleapis|)\.com.*$/,
+  workbox.strategies.staleWhileRevalidate({
+    cacheName: "firebase",
+  })
+);
+
+// workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
 
 /* 
 -----

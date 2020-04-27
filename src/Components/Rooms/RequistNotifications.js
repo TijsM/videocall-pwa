@@ -4,13 +4,12 @@ import {firestore} from '../../firebase'
 function RequestNotifications(){
 
   const request = async () => {
-    console.log('here 1.0')
     const sw = await navigator.serviceWorker.ready;
-    console.log('here 2.O')
     let pushSub = await sw.pushManager.subscribe({
       userVisibleOnly: true,
       applicationServerKey: 'BEV0UUVQ_akT0b0168P6JVwebBpOqLtbl7-kejmlUijGA01VtfkXR7irgn9yLwZhYvO3FZVnn_7mVyRd9Jv85Zw'
     })
+
 
     console.log('here')
     //store this push object (the subscription) in the database with the user

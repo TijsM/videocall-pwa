@@ -13,13 +13,28 @@ function Home() {
 
   useEffect(() => {
     const _user = JSON.parse(localStorage.getItem("user"));
+    const fetchRooms = async () => {
+
+      const userPromise = await fetch('https://firestore.googleapis.com/v1/projects/videocall-pwa/databases/(default)/documents/users/'+_user.email)
+      const user = await userPromise.json()
+
+      const _rooms = user.fields.rooms.arrayValue.values.map((room) => {
+        return room.stringValue
+      })
+
+      setRooms(_rooms)
+    }
+    
+
     if (_user) {
       setUser(_user);
 
-      const userRef = firestore.collection("users").doc(_user.email);
-      userRef.get().then((prom) => {
-        setRooms(prom.data().rooms);
-      });
+      fetchRooms()
+
+      // const userRef = firestore.collection("users").doc(_user.email);
+      // userRef.get().then((prom) => {
+      //   setRooms(prom.data().rooms);
+      // });
     } else {
       history.push("/login");
     }
