@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { firestore } from "../../firebase";
 import RequestNotifications from "./RequistNotifications";
+import {motion} from 'framer-motion'
 import "./Home.scss";
 
 function Home() {
@@ -111,7 +112,12 @@ function Home() {
   }
 
   return (
-    <div>
+    <motion.div
+      className="container"
+      exit={{ opacity: 0 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+    >
       <h1>Welcome {user && user.userName}</h1>
 
       <form>
@@ -129,7 +135,7 @@ function Home() {
         LOGOUT
       </button>
       <RequestNotifications />
-    </div>
+    </motion.div>
   );
 }
 

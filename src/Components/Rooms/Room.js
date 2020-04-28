@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import io from "socket.io-client";
 import Peer from "simple-peer";
 import { useParams } from "react-router-dom";
+import {motion} from "framer-motion"
 
 import "./Room.scss";
 
@@ -183,7 +184,12 @@ function Room({ isOwner }) {
   }
 
   return (
-    <div>
+    <motion.div
+    className="container"
+    exit={{ opacity: 0 }}
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+  >
       <h1>
         {isOwner
           ? "YOU ARE THE OWNER OF THIS ROOM: "
@@ -214,7 +220,7 @@ function Room({ isOwner }) {
       <hr></hr>
       <div>is owner: {isOwner.toString()}</div>
       <hr></hr>
-    </div>
+    </motion.div>
   );
 }
 

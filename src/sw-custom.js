@@ -20,7 +20,7 @@ self.addEventListener("activate", function (event) {
 
 
 workbox.precaching.precacheAndRoute([
-  {url: '/index.html', revision: '383676'},
+  {url: '/index.html', revision: '1'},
 ]);
 
 // JS, CSS caching
@@ -44,8 +44,6 @@ workbox.routing.registerRoute(
     cacheName: "firebase",
   })
 );
-
-// workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
 
 /* 
 -----

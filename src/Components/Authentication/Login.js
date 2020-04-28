@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import { Link, useHistory } from "react-router-dom";
 import {
   authWithGoogle,
@@ -74,7 +75,11 @@ function Login() {
   };
 
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      exit={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+    >
       <h1>login page</h1>
       <form>
         <input
@@ -95,7 +100,7 @@ function Login() {
       <div className="changeAuthMethod">
         No acount yet? create one: <Link to="/register">Register</Link>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
