@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { firestore } from "../../firebase";
 import RequestNotifications from "./RequistNotifications";
-import {motion} from 'framer-motion'
-import { pageTransition } from "../../Transitions";
+import { motion } from "framer-motion";
+import { pageTransition, pageVariant } from "../../Transitions";
 
 import "./Home.scss";
 
@@ -17,22 +17,23 @@ function Home() {
   useEffect(() => {
     const _user = JSON.parse(localStorage.getItem("user"));
     const fetchRooms = async () => {
-
-      const userPromise = await fetch('https://firestore.googleapis.com/v1/projects/videocall-pwa/databases/(default)/documents/users/'+_user.email)
-      const user = await userPromise.json()
+      const userPromise = await fetch(
+        "https://firestore.googleapis.com/v1/projects/videocall-pwa/databases/(default)/documents/users/" +
+          _user.email
+      );
+      const user = await userPromise.json();
 
       const _rooms = user.fields.rooms.arrayValue.values.map((room) => {
-        return room.stringValue
-      })
+        return room.stringValue;
+      });
 
-      setRooms(_rooms)
-    }
-    
+      setRooms(_rooms);
+    };
 
     if (_user) {
       setUser(_user);
 
-      fetchRooms()
+      fetchRooms();
 
       // const userRef = firestore.collection("users").doc(_user.email);
       // userRef.get().then((prom) => {
@@ -114,7 +115,13 @@ function Home() {
   }
 
   return (
-    <motion.div variants={pageTransition} initial="out" exit="out" animate="in">
+    <motion.div
+      variants={pageVariant}
+      transition={pageTransition}
+      initial="initial"
+      exit="out"
+      animate="in"
+    >
       <h1>Welcome {user && user.userName}</h1>
 
       <form>

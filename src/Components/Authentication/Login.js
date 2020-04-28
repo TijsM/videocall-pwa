@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { pageTransition } from "../../Transitions";
+import { pageVariant, pageTransition } from "../../Transitions";
 
 import { Link, useHistory } from "react-router-dom";
 import {
@@ -76,9 +76,14 @@ function Login() {
       });
   };
 
-  console.log();
   return (
-    <motion.div variants={pageTransition} initial="out" exit="out" animate="in">
+    <motion.div
+      variants={pageVariant}
+      transition={pageTransition}
+      initial="initial"
+      exit="out"
+      animate="in"
+    >
       <h1>login page</h1>
       <form>
         <input

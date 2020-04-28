@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { motion } from "framer-motion";
-import { pageTransition } from "../../Transitions";
+import { pageTransition, pageVariant } from "../../Transitions";
 
 import {
   authWithGoogle,
@@ -78,7 +78,13 @@ function Register() {
   };
 
   return (
-    <motion.div variants={pageTransition} initial="out" exit="out" animate="in">
+    <motion.div
+      variants={pageVariant}
+      transition={pageTransition}
+      initial="initial"
+      exit="out"
+      animate="in"
+    >
       <h1>Register page</h1>
       <form>
         <input
