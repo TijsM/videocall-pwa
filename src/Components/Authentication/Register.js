@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { motion } from "framer-motion";
+import { pageTransition } from "../../Transitions";
+
 import {
   authWithGoogle,
   signUpWithEmail,
@@ -76,12 +78,7 @@ function Register() {
   };
 
   return (
-    <motion.div
-      className="container"
-      exit={{ opacity: 0 }}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-    >
+    <motion.div variants={pageTransition} initial="out" exit="out" animate="in">
       <h1>Register page</h1>
       <form>
         <input

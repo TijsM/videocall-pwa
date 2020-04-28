@@ -3,6 +3,8 @@ import { Link, useHistory } from "react-router-dom";
 import { firestore } from "../../firebase";
 import RequestNotifications from "./RequistNotifications";
 import {motion} from 'framer-motion'
+import { pageTransition } from "../../Transitions";
+
 import "./Home.scss";
 
 function Home() {
@@ -112,12 +114,7 @@ function Home() {
   }
 
   return (
-    <motion.div
-      className="container"
-      exit={{ opacity: 0 }}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-    >
+    <motion.div variants={pageTransition} initial="out" exit="out" animate="in">
       <h1>Welcome {user && user.userName}</h1>
 
       <form>

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { pageTransition } from "../../Transitions";
+
 import { Link, useHistory } from "react-router-dom";
 import {
   authWithGoogle,
@@ -74,12 +76,9 @@ function Login() {
       });
   };
 
+  console.log();
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      exit={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-    >
+    <motion.div variants={pageTransition} initial="out" exit="out" animate="in">
       <h1>login page</h1>
       <form>
         <input
