@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import io from "socket.io-client";
 import Peer from "simple-peer";
 import { useParams } from "react-router-dom";
+import { motion } from "framer-motion";
+import { pageTransition, pageVariant } from "../../Transitions";
 
 import "./Room.scss";
 
@@ -81,12 +83,12 @@ function Room({ isOwner }) {
     if (!isOwner) {
       fetch("http://localhost:8001/sendNotificationEnteredRoom", {
         method: "post",
-        headers:{
-          "Content-Type": "application/json"
+        headers: {
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           roomname,
-          roomownername
+          roomownername,
         }),
       });
     }
@@ -183,7 +185,13 @@ function Room({ isOwner }) {
   }
 
   return (
-    <div>
+    <motion.div
+      variants={pageVariant}
+      transition={pageTransition}
+      initial="initial"
+      exit="out"
+      animate="in"
+    >
       <h1>
         {isOwner
           ? "YOU ARE THE OWNER OF THIS ROOM: "
@@ -214,7 +222,7 @@ function Room({ isOwner }) {
       <hr></hr>
       <div>is owner: {isOwner.toString()}</div>
       <hr></hr>
-    </div>
+    </motion.div>
   );
 }
 

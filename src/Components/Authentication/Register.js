@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { motion } from "framer-motion";
+import { pageTransition, pageVariant } from "../../Transitions";
+
 import {
   authWithGoogle,
   signUpWithEmail,
   authWithFacebook,
 } from "../../firebase";
-import {storeUserInFirestore, storeUserInLocalStorage} from '../../helpers'
+import { storeUserInFirestore, storeUserInLocalStorage } from "../../helpers";
 
 import "./Auth.scss";
 
@@ -75,7 +78,13 @@ function Register() {
   };
 
   return (
-    <div className="container">
+    <motion.div
+      variants={pageVariant}
+      transition={pageTransition}
+      initial="initial"
+      exit="out"
+      animate="in"
+    >
       <h1>Register page</h1>
       <form>
         <input
@@ -103,7 +112,7 @@ function Register() {
       <div className="changeAuthMethod">
         already have an account, <Link to="/">login</Link>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
