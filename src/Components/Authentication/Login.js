@@ -90,7 +90,7 @@ function Login() {
       animate="in"
       className="authContainer"
     >
-      <img className="authIllustration" src={fingerAuth} alt="Logo" />
+      <img className="authIllustration" src={fingerAuth} alt="illustration" />
       <form className="authForm">
         <input
           onChange={(val) => setEmail(val.target.value)}
@@ -101,7 +101,6 @@ function Login() {
           placeholder="password"
         ></input>
         <button className="confirmButton" onClick={(e) => login(e)}>
-          {" "}
           confirm
         </button>
         <div className="changeAuthMethod">

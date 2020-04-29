@@ -12,6 +12,11 @@ import { storeUserInFirestore, storeUserInLocalStorage } from "../../helpers";
 
 import "./Auth.scss";
 
+import registerIllustration from "../../assets/register.svg";
+import google from "../../assets/google.svg";
+import facebook from "../../assets/facebook.svg";
+import apple from "../../assets/apple.svg";
+
 function Register() {
   const [email, setEmail] = useState();
   const [userName, setUserName] = useState();
@@ -86,8 +91,12 @@ function Register() {
       animate="in"
       className="authContainer"
     >
-      <h1>Register page</h1>
-      <form>
+      <img
+        className="authIllustration"
+        src={registerIllustration}
+        alt="illustration"
+      />
+      <form className="authForm">
         <input
           onChange={(val) => setEmail(val.target.value)}
           placeholder="email"
@@ -102,16 +111,29 @@ function Register() {
         ></input>
 
         <button onClick={(e) => register(e)}> confirm</button>
-        <hr></hr>
-        <br></br>
+        <div className="changeAuthMethod">
+          <Link to="/">already have an account?</Link>
+        </div>
       </form>
       <div className="socialsLogin">
-        <button onClick={signUpWithGoogle}>sign up with google</button>
-        <button onClick={signupwithFacebook}>sign up with facebook</button>
-      </div>
-
-      <div className="changeAuthMethod">
-        already have an account, <Link to="/">login</Link>
+        <h2>login with socials</h2>
+        <button onClick={signUpWithGoogle}>
+          <img
+            className="socialIcon"
+            src={google}
+            alt="google authenticaitons"
+          />
+        </button>
+        <button onClick={signupwithFacebook}>
+          <img
+            className="socialIcon"
+            src={facebook}
+            alt="facebook authenticaitons"
+          />
+        </button>
+        <button onClick={() => alert("Sorry - not yet available")}>
+          <img className="socialIcon" src={apple} alt="apple authenticaitons" />
+        </button>
       </div>
     </motion.div>
   );
