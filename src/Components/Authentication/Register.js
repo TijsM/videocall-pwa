@@ -84,6 +84,7 @@ function Register() {
       initial="initial"
       exit="out"
       animate="in"
+      className="authContainer"
     >
       <h1>Register page</h1>
       <form>

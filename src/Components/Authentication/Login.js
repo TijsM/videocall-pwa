@@ -13,6 +13,8 @@ import { storeUserInLocalStorage } from "../../helpers";
 
 import "./Auth.scss";
 
+import fingerAuth from '../../assets/finger.svg'
+
 function Login() {
   const history = useHistory();
   const [email, setEmail] = useState();
@@ -83,8 +85,9 @@ function Login() {
       initial="initial"
       exit="out"
       animate="in"
+      className="authContainer"
     >
-      <h1>login page</h1>
+      <img className='authIllustration' src={fingerAuth} alt="Logo" />
       <form>
         <input
           onChange={(val) => setEmail(val.target.value)}
