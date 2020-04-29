@@ -1,4 +1,3 @@
-@import'../../app.scss';
 
 
 .authContainer{
@@ -28,11 +27,7 @@
   flex-direction: column;
   padding-top: 300px;
 
-  input {
-    padding: 5px;
-    font-size: 40px;
-    border: none; 
-  }
+ 
   button{
     margin-bottom: 10px;
   }

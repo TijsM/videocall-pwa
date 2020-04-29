@@ -7,6 +7,12 @@ import { pageTransition, pageVariant } from "../../Transitions";
 
 import "./Home.scss";
 
+import deleteIcon from "../../assets/delete.svg";
+import copyIcon from "../../assets/copy.svg";
+import logoutIllustration from "../../assets/logout.svg";
+import notificationIllustration from "../../assets/notifications.svg";
+import installIllustration from "../../assets/install.svg";
+
 function Home() {
   const [newRoomName, setNewRoomName] = useState();
   const [user, setUser] = useState();
@@ -22,27 +28,18 @@ function Home() {
           _user.email
       );
       const user = await userPromise.json();
-
       const _rooms = user.fields.rooms.arrayValue.values.map((room) => {
         return room.stringValue;
       });
-
       setRooms(_rooms);
     };
 
     if (_user) {
       setUser(_user);
-
       fetchRooms();
-
-      // const userRef = firestore.collection("users").doc(_user.email);
-      // userRef.get().then((prom) => {
-      //   setRooms(prom.data().rooms);
-      // });
     } else {
       history.push("/login");
     }
-
     // eslint-disable-next-line
   }, []);
 
@@ -97,17 +94,28 @@ function Home() {
   if (rooms) {
     roomsJsx = rooms.map((room) => {
       return (
-        <div key={room} className="roomContainer">
-          <div>{room}</div>
-          <div>
-            <button onClick={() => removeRoom({ room })}>remove room</button>
-            <Link
-              to={`/room/${user.userName.split(" ").join("")}/${room
-                .split(" ")
-                .join("")}`}
+        <div key={room} className="roomListItem">
+          <Link
+            to={`/room/${user.userName.split(" ").join("")}/${room
+              .split(" ")
+              .join("")}`}
+          >
+            {room}
+          </Link>
+
+          <div className="roomActions">
+            <button
+              className="roomActionButton"
+              onClick={() => alert("not yet implemented")}
             >
-              Go to room
-            </Link>
+              <img src={copyIcon} alt="delete icon" />
+            </button>
+            <button
+              className="roomActionButton"
+              onClick={() => removeRoom({ room })}
+            >
+              <img src={deleteIcon} alt="delete icon" />
+            </button>
           </div>
         </div>
       );
@@ -121,24 +129,51 @@ function Home() {
       initial="initial"
       exit="out"
       animate="in"
+      className="homeContainer"
     >
-      <h1>Welcome {user && user.userName}</h1>
-
-      <form>
+      <form className="addRoomForm">
         <input
           onChange={(val) => setNewRoomName(val.target.value)}
           placeholder="new room name"
         ></input>
-        <button onClick={(e) => confirm(e)}> confirm</button>
+        <button className="highlightedButton" onClick={(e) => confirm(e)}>
+          create
+        </button>
       </form>
-      <section id="roomsection">
-        <h2>your rooms:</h2>
-        {roomsJsx}
-      </section>
-      <button style={{ marginTop: 200 }} onClick={logout}>
+
+      <h1>your rooms:</h1>
+      <section className="roomsContainer">{roomsJsx}</section>
+      <section className="actionCards">
+        <div className="card">
+          <img
+            className="cardIllustration"
+            src={installIllustration}
+            alt="illustration"
+          />
+          <h2 className="cardText">add to homescreen</h2>
+        </div>
+        <div className="card">
+          <img
+            className="cardIllustration"
+            src={notificationIllustration}
+            alt="illustration"
+          />
+          <h2 className="cardText">get notifications</h2>
+        </div>
+        <div className="card">
+          <img
+            className="cardIllustration"
+            src={logoutIllustration}
+            alt="illustration"
+          />
+          <h2 className="cardText">logout</h2>
+        </div>
+
+        {/* <button style={{ marginTop: 200 }} onClick={logout}>
         LOGOUT
       </button>
-      <RequestNotifications />
+      <RequestNotifications /> */}
+      </section>
     </motion.div>
   );
 }

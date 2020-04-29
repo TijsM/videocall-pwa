@@ -4,7 +4,7 @@ $secondary: #FF5376;
 html{
   max-width: 100vw;
   max-height: 100vh;
-  overflow: hidden;
+  
   outline: none;
 }
 
@@ -14,6 +14,22 @@ input{
 
 body{
   position: relative;
+  overflow: hidden;
+}
+
+h1{
+  color: $primary;
+  text-align: center;
+}
+
+h2{
+  color: $primary;
+}
+
+input {
+  padding: 5px;
+  font-size: 40px;
+  border: none; 
 }
 
 button{
@@ -22,7 +38,7 @@ button{
   border: $primary solid 1px;
   padding: 7px;  
   color: $primary;
-  width: 200px;
+  width: 100px;
   font-weight: bolder;
   font-size: 1.15em;
 }
@@ -31,9 +47,7 @@ button{
   color: $secondary;
 }
 
-h2{
-  color: $primary;
-}
+
 
 a{
   padding-top: 15px;

@@ -1,10 +1,86 @@
-#roomsection{
-  padding-top: 150px;
-  width: 50%;
-  margin: auto;
+@import'../../app.scss';
+
+
+.homeContainer{
+  background-image: url('../../assets/backg2.svg');
+  height: 100vh;
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  box-sizing: border-box;
+  position: relative;
+}
+.addRoomForm{
+  padding-top: 30px;
+  display: flex;
+  margin-left: 20px;
+  flex-direction: column;
+  z-index: 2;
+  input{
+    color: white;
+    background-color: transparent;
+  }
 }
 
-.roomContainer{
+.roomsContainer{
+  margin-top: 0px;
+  max-height: 150px;
+  overflow-y: scroll;
+}
+
+.roomListItem{
   display: flex;
   justify-content: space-between;
+  width: 75%;
+  margin: auto;
+  align-items: center;
+
+}
+
+.roomActions{
+  width: 200px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.roomActionButton{
+  border:none;
+  padding-right: 20px;
+  width: auto;
+  img{
+    height: 25px;
+  }
+}
+
+.actionCards{
+  overflow-y: scroll;
+  padding: 20px;
+  display: flex;
+  
+}
+.card{
+  min-width: 300px;
+  height: 120px;
+  border: $primary solid 1px;
+  border-radius: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+
+  .cardIllustration{
+    width: 100px;
+    margin-left: 20px;
+  }
+
+  .cardText{
+    margin-left: 20px;
+    // font-size: 1.2em;
+    word-wrap: break-word;
+  }
 }
