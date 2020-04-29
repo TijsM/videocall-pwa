@@ -9,14 +9,11 @@ import Home from "./Components/Rooms/Home";
 import Room from "./Components/Rooms/Room";
 import SendNotificationToAll from "./Components/Admin/SendNotificationToAll";
 
-
+import './app.scss'
 function App() {
   const location = useLocation()
   return (
-
       <div>
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
         <AnimatePresence exitBeforeEnter >
           <Switch location={location} key={location.pathname} >
             <Route path="/register">

@@ -13,7 +13,10 @@ import { storeUserInLocalStorage } from "../../helpers";
 
 import "./Auth.scss";
 
-import fingerAuth from '../../assets/finger.svg'
+import fingerAuth from "../../assets/finger.svg";
+import google from "../../assets/google.svg";
+import facebook from "../../assets/facebook.svg";
+import apple from "../../assets/apple.svg";
 
 function Login() {
   const history = useHistory();
@@ -87,8 +90,8 @@ function Login() {
       animate="in"
       className="authContainer"
     >
-      <img className='authIllustration' src={fingerAuth} alt="Logo" />
-      <form>
+      <img className="authIllustration" src={fingerAuth} alt="Logo" />
+      <form className="authForm">
         <input
           onChange={(val) => setEmail(val.target.value)}
           placeholder="email"
@@ -97,15 +100,33 @@ function Login() {
           onChange={(val) => setpassword(val.target.value)}
           placeholder="password"
         ></input>
-        <button onClick={(e) => login(e)}> confirm</button>
+        <button className="confirmButton" onClick={(e) => login(e)}>
+          {" "}
+          confirm
+        </button>
+        <div className="changeAuthMethod">
+          <Link to="/register">no account yet?</Link>
+        </div>
       </form>
       <div className="socialsLogin">
-        <button onClick={singInWithGoogle}>sign in with google</button>
-        <button onClick={signInWithFacebook}>sign in with facebook</button>
-      </div>
-
-      <div className="changeAuthMethod">
-        No acount yet? create one: <Link to="/register">Register</Link>
+        <h2>login with socials</h2>
+        <button onClick={singInWithGoogle}>
+          <img
+            className="socialIcon"
+            src={google}
+            alt="google authenticaitons"
+          />
+        </button>
+        <button onClick={signInWithFacebook}>
+          <img
+            className="socialIcon"
+            src={facebook}
+            alt="facebook authenticaitons"
+          />
+        </button>
+        <button onClick={() => alert("Sorry - not yet available")}>
+          <img className="socialIcon" src={apple} alt="apple authenticaitons" />
+        </button>
       </div>
     </motion.div>
   );

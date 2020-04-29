@@ -1,0 +1,35 @@
+$primary : #242154;
+$secondary: #FF5376;
+
+html{
+  max-width: 100vw;
+  max-height: 100vh;
+}
+body{
+  position: relative;
+}
+
+button{
+  border-radius: 40px;
+  background-color: transparent;
+  border: $primary solid 1px;
+  padding: 7px;  
+  color: $primary;
+  width: 200px;
+  font-weight: bolder;
+  font-size: 1.15em;
+}
+.highlightedButton{
+  border-color: $secondary;
+  color: $secondary;
+}
+
+h2{
+  color: $primary;
+}
+
+a{
+  padding-top: 15px;
+  padding: 5px;
+  color: $primary;
+}
