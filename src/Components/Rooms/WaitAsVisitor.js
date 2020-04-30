@@ -30,7 +30,7 @@ function WaitAsVisitor({ acceptCall, roomownername, partnerSignal }) {
         {partnerSignal ? (
           <div>
             <h1>
-              Hi there! You’re about to enter a room created by {roomownername}.
+              hi there! You’re about to enter a room created by {roomownername}.
             </h1>
             <button
               className="highlightedButton"
@@ -41,7 +41,7 @@ function WaitAsVisitor({ acceptCall, roomownername, partnerSignal }) {
           </div>
         ) : (
           <h1>
-            Hi there! You’re in {roomownername}'s room. He is not here yet, please wait
+            hi there! You’re in {roomownername}'s room. He is not here yet, please wait
           </h1>
         )}
       </div>
