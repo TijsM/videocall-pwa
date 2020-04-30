@@ -195,7 +195,7 @@ function Home() {
           />
           <h2 className="cardText">get notifications</h2>
         </div>
-        <div className="card" onClick={logout}>
+        <div className="card" onClick={logout}> 
           <img
             className="cardIllustration"
             src={logoutIllustration}

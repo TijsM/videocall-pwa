@@ -4,6 +4,8 @@ import Peer from "simple-peer";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { pageTransition, pageVariant } from "../../Transitions";
+import WaitAsOwner from "./WaitAsOwner";
+import WaitAsVisitor from "./WaitAsVisitor";
 
 import "./Room.scss";
 
@@ -28,8 +30,8 @@ function Room({ isOwner }) {
   console.log(roomname);
   console.log(roomownername);
   useEffect(() => {
-    // socket.current = io.connect("https://videocall-pwa.glitch.me/");
-    socket.current = io.connect("http://localhost:8001");
+    socket.current = io.connect("https://videocall-pwa.glitch.me/");
+    // socket.current = io.connect("http://localhost:8001");
 
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: false })
@@ -152,19 +154,6 @@ function Room({ isOwner }) {
     peer.signal(partnerSignal);
   };
 
-  const copyLink = () => {
-    navigator.clipboard
-      .writeText(`http://localhost:3000/visitroom/${roomownername}/${roomname}`)
-      .then(() => {
-        console.log("Text copied to clipboard");
-        alert("coppied!! share the coppied link with somebody");
-      })
-      .catch((err) => {
-        console.log("Could not copy text: ", err);
-        alert("ERROR" + err);
-      });
-  };
-
   let yourVideoElement;
   if (yourVideoStream) {
     yourVideoElement = <video playsInline ref={yourVideo} autoPlay />;
@@ -192,28 +181,26 @@ function Room({ isOwner }) {
       exit="out"
       animate="in"
     >
-      <h1>
-        {isOwner
-          ? "YOU ARE THE OWNER OF THIS ROOM: "
-          : "YOU ARE THE VISITOR OF THE ROOM: "}{" "}
-        {roomname}
-      </h1>
-
-      {isOwner && <button onClick={copyLink}>share this room</button>}
-
-      {partnerSignal ? (
+      {/* {partnerSignal ? (
         <button onClick={acceptCall}>start call with room owner</button>
+      ) : null} */}
+
+      {!callAccepted ? (
+        isOwner ? (
+          <WaitAsOwner />
+        ) : (
+          <WaitAsVisitor partnerSignal={partnerSignal} roomownername={roomownername} acceptCall={acceptCall} />
+        )
       ) : (
-        <h2>the other person is not yet online</h2>
+        <div></div>
       )}
 
-      <h2>your video:</h2>
-
+      {/* <h2>your video:</h2>
       {yourVideoElement}
       <h2>partner video:</h2>
-      {partnerVideoElement}
+      {partnerVideoElement} */}
 
-      <h2>dev info</h2>
+      {/* <h2>dev info</h2>
       <div>your socket: {yourSocketId}</div>
       <div>partner socket: {partnerSocketId}</div>
       <hr></hr>
@@ -221,7 +208,7 @@ function Room({ isOwner }) {
       <div>room visitor id: {roomVisitorId}</div>
       <hr></hr>
       <div>is owner: {isOwner.toString()}</div>
-      <hr></hr>
+      <hr></hr> */}
     </motion.div>
   );
 }

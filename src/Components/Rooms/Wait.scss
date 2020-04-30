@@ -1,0 +1,34 @@
+.waitContainer {
+  background-image: url("../../assets/backg3.svg");
+  height: 100vh;
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  box-sizing: border-box;
+  position: relative;
+
+  h1{
+    text-align: left;
+    color: white;
+  }
+
+  button{
+    width: 200px;
+  }
+}
+
+.waitHead{
+  margin-left: 20px;
+}
+
+.waitVideo{
+  bottom: 30px;
+  border-radius: 20px;
+  margin: auto;
+  z-index: 2;
+}
