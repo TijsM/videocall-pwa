@@ -84,29 +84,64 @@ function Home() {
     });
   };
 
+  const copyLink = (owner, room) => {
+    navigator.clipboard
+      .writeText(`http://localhost:3000/visitroom/${owner}/${room}`)
+      .then(() => {
+        console.log("Text copied to clipboard");
+        alert("coppied!! share the coppied link with somebody");
+      })
+      .catch((err) => {
+        console.log("Could not copy text: ", err);
+        alert("ERROR" + err);
+      });
+  };
+
   const logout = () => {
     localStorage.setItem("authData", null);
     localStorage.setItem("user", null);
     history.push("/login");
   };
 
+  const RequestNotifications = async () => {
+    const sw = await navigator.serviceWorker.ready;
+    let pushSub = await sw.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: 'BEV0UUVQ_akT0b0168P6JVwebBpOqLtbl7-kejmlUijGA01VtfkXR7irgn9yLwZhYvO3FZVnn_7mVyRd9Jv85Zw'
+    })
+    console.log('here')
+    //store this push object (the subscription) in the database with the user
+    console.log(JSON.stringify(pushSub))
+
+    console.log("storing subscription in the database");
+    const _user = JSON.parse(localStorage.getItem("user"));
+
+    const userRef = firestore.collection("users").doc(_user.email);
+    userRef.get().then((prom) => {
+      userRef.set(
+        {
+          notificationSubscription: JSON.stringify(pushSub),
+        },
+        { merge: true }
+      );
+    });
+  }
+
   let roomsJsx;
   if (rooms) {
     roomsJsx = rooms.map((room) => {
+      const splittedUsername = user.userName.split(" ").join("");
+      const splittedRoomName = room.split(" ").join("");
       return (
         <div key={room} className="roomListItem">
-          <Link
-            to={`/room/${user.userName.split(" ").join("")}/${room
-              .split(" ")
-              .join("")}`}
-          >
+          <Link to={`/room/${splittedUsername}/${splittedRoomName}`}>
             {room}
           </Link>
 
           <div className="roomActions">
             <button
               className="roomActionButton"
-              onClick={() => alert("not yet implemented")}
+              onClick={() => copyLink(splittedUsername, splittedRoomName)}
             >
               <img src={copyIcon} alt="delete icon" />
             </button>
@@ -144,7 +179,7 @@ function Home() {
       <h1>your rooms:</h1>
       <section className="roomsContainer">{roomsJsx}</section>
       <section className="actionCards">
-        <div className="card">
+        <div className="card" onClick={() => alert('sorry, not yet implemented')}>
           <img
             className="cardIllustration"
             src={installIllustration}
@@ -152,7 +187,7 @@ function Home() {
           />
           <h2 className="cardText">add to homescreen</h2>
         </div>
-        <div className="card">
+        <div className="card" onClick={RequestNotifications}>
           <img
             className="cardIllustration"
             src={notificationIllustration}
@@ -160,7 +195,7 @@ function Home() {
           />
           <h2 className="cardText">get notifications</h2>
         </div>
-        <div className="card">
+        <div className="card" onClick={logout}>
           <img
             className="cardIllustration"
             src={logoutIllustration}

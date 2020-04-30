@@ -9,8 +9,6 @@ function RequestNotifications(){
       userVisibleOnly: true,
       applicationServerKey: 'BEV0UUVQ_akT0b0168P6JVwebBpOqLtbl7-kejmlUijGA01VtfkXR7irgn9yLwZhYvO3FZVnn_7mVyRd9Jv85Zw'
     })
-
-
     console.log('here')
     //store this push object (the subscription) in the database with the user
     console.log(JSON.stringify(pushSub))
@@ -27,9 +25,7 @@ function RequestNotifications(){
         { merge: true }
       );
     });
-    
   }
-
   return <button onClick={request}>request</button>
 }
 
