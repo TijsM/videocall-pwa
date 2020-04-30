@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { pageVariant, pageTransition } from "../../Transitions";
 
@@ -22,6 +22,7 @@ function Login() {
   const history = useHistory();
   const [email, setEmail] = useState();
   const [password, setpassword] = useState();
+
 
   const login = (event) => {
     event.preventDefault();

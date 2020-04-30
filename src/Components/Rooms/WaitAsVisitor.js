@@ -5,6 +5,7 @@ import "./Wait.scss";
 function WaitAsVisitor({ acceptCall, roomownername,roomname, partnerSignal }) {
   const [yourVideoStream, setYourVideoStream] = useState();
   const yourVideo = useRef();
+  
 
   useEffect(() => {
     navigator.mediaDevices

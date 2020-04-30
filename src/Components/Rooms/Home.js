@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { firestore } from "../../firebase";
-import RequestNotifications from "./RequistNotifications";
 import { motion } from "framer-motion";
 import { pageTransition, pageVariant } from "../../Transitions";
 
@@ -17,6 +16,7 @@ function Home() {
   const [newRoomName, setNewRoomName] = useState();
   const [user, setUser] = useState();
   const [rooms, setRooms] = useState();
+  const [prompt, setPrompt] = useState();
 
   const history = useHistory();
 
@@ -40,6 +40,13 @@ function Home() {
     } else {
       history.push("/login");
     }
+
+    window.addEventListener("beforeinstallprompt", (event) => {
+      event.preventDefault();
+      console.log("caught");
+      setPrompt(event);
+    });
+
     // eslint-disable-next-line
   }, []);
 
@@ -104,22 +111,23 @@ function Home() {
   };
 
   const RequestNotifications = async () => {
-    console.log('requesting notifications')
+    console.log("requesting notifications");
     const sw = await navigator.serviceWorker.ready;
     let pushSub = await sw.pushManager.subscribe({
       userVisibleOnly: true,
-      applicationServerKey: 'BEV0UUVQ_akT0b0168P6JVwebBpOqLtbl7-kejmlUijGA01VtfkXR7irgn9yLwZhYvO3FZVnn_7mVyRd9Jv85Zw'
-    })
-    console.log('here')
+      applicationServerKey:
+        "BEV0UUVQ_akT0b0168P6JVwebBpOqLtbl7-kejmlUijGA01VtfkXR7irgn9yLwZhYvO3FZVnn_7mVyRd9Jv85Zw",
+    });
+    console.log("here");
     //store this push object (the subscription) in the database with the user
-    console.log(JSON.stringify(pushSub))
+    console.log(JSON.stringify(pushSub));
 
     console.log("storing subscription in the database");
     const _user = JSON.parse(localStorage.getItem("user"));
 
     const userRef = firestore.collection("users").doc(_user.email);
     userRef.get().then((prom) => {
-      console.log('in update')
+      console.log("in update");
       userRef.set(
         {
           notificationSubscription: JSON.stringify(pushSub),
@@ -127,7 +135,18 @@ function Home() {
         { merge: true }
       );
     });
-  }
+  };
+
+  const addToHome = () => {
+    console.log("in install, the state is", prompt);
+    if (prompt) {
+      console.log("state", prompt);
+      prompt.prompt();
+    } else {
+      console.log("state", prompt);
+      console.log("installing is not supported");
+    }
+  };
 
   let roomsJsx;
   if (rooms) {
@@ -181,7 +200,7 @@ function Home() {
       <h1>your rooms:</h1>
       <section className="roomsContainer">{roomsJsx}</section>
       <section className="actionCards">
-        <div className="card" onClick={() => alert('sorry, not yet implemented')}>
+        <div className="card" onClick={addToHome}>
           <img
             className="cardIllustration"
             src={installIllustration}
@@ -197,7 +216,7 @@ function Home() {
           />
           <h2 className="cardText">get notifications</h2>
         </div>
-        <div className="card" onClick={logout}> 
+        <div className="card" onClick={logout}>
           <img
             className="cardIllustration"
             src={logoutIllustration}
