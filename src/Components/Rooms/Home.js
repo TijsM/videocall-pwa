@@ -104,6 +104,7 @@ function Home() {
   };
 
   const RequestNotifications = async () => {
+    console.log('requesting notifications')
     const sw = await navigator.serviceWorker.ready;
     let pushSub = await sw.pushManager.subscribe({
       userVisibleOnly: true,
@@ -118,6 +119,7 @@ function Home() {
 
     const userRef = firestore.collection("users").doc(_user.email);
     userRef.get().then((prom) => {
+      console.log('in update')
       userRef.set(
         {
           notificationSubscription: JSON.stringify(pushSub),

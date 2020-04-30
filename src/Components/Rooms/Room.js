@@ -27,11 +27,9 @@ function Room({ isOwner }) {
   const socket = useRef();
 
   const { roomname, roomownername } = useParams();
-  console.log(roomname);
-  console.log(roomownername);
   useEffect(() => {
     socket.current = io.connect("https://videocall-pwa.glitch.me/");
-    // socket.current = io.connect("http://localhost:8001");
+    // socket.current = io.connect("http://localhost:8000");
 
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: false })
@@ -82,18 +80,6 @@ function Room({ isOwner }) {
       setPartnerSignal(data.signal);
     });
 
-    if (!isOwner) {
-      fetch("http://localhost:8001/sendNotificationEnteredRoom", {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          roomname,
-          roomownername,
-        }),
-      });
-    }
     // eslint-disable-next-line
   }, []);
 
@@ -130,6 +116,8 @@ function Room({ isOwner }) {
   const acceptCall = () => {
     console.log("in acceptCall method");
     setCallAccepted(true);
+
+    console.log('your vid stream', yourVideoStream)
 
     const peer = new Peer({
       initiator: false,
@@ -189,16 +177,16 @@ function Room({ isOwner }) {
         isOwner ? (
           <WaitAsOwner />
         ) : (
-          <WaitAsVisitor partnerSignal={partnerSignal} roomownername={roomownername} acceptCall={acceptCall} />
+          <WaitAsVisitor partnerSignal={partnerSignal} roomname={roomname} roomownername={roomownername} acceptCall={acceptCall} />
         )
       ) : (
         <div></div>
       )}
 
-      {/* <h2>your video:</h2>
+      <h2>your video:</h2>
       {yourVideoElement}
       <h2>partner video:</h2>
-      {partnerVideoElement} */}
+      {partnerVideoElement}
 
       {/* <h2>dev info</h2>
       <div>your socket: {yourSocketId}</div>

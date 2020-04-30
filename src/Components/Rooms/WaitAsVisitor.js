@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 
 import "./Wait.scss";
 
-function WaitAsVisitor({ acceptCall, roomownername, partnerSignal }) {
+function WaitAsVisitor({ acceptCall, roomownername,roomname, partnerSignal }) {
   const [yourVideoStream, setYourVideoStream] = useState();
   const yourVideo = useRef();
 
@@ -15,7 +15,20 @@ function WaitAsVisitor({ acceptCall, roomownername, partnerSignal }) {
           yourVideo.current.srcObject = stream;
         }
       });
-  }, []);
+
+      console.log('before firing noti')
+      fetch("https://videocall-pwa.glitch.me/sendNotificationEnteredRoom", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          roomname,
+          roomownername,
+        }),
+      });
+
+  }, [roomname, roomownername]);
 
   let yourVideoElement;
   if (yourVideoStream) {

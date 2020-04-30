@@ -23,6 +23,8 @@ workbox.precaching.precacheAndRoute([
   {url: '/index.html', revision: '1'},
 ]);
 
+workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
+
 // JS, CSS caching
 workbox.routing.registerRoute(
   /\.(?:js|css)$/,
