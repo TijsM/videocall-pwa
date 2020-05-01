@@ -53,3 +53,12 @@ video {
     opacity: 0.5;
   }
 }
+
+.statsContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  justify-items: flex-end;
+  align-content: flex-end;
+  align-items: flex-end;
+}

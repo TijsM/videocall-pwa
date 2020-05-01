@@ -10,15 +10,12 @@ import { useHistory } from "react-router-dom";
 
 import stopIcon from "../../assets/stop.svg";
 import muteIcon from "../../assets/mute.svg";
-import enableMicIcon from "../../assets/mic.svg";
 import disableVidIcon from "../../assets/disableVideo.svg";
-import enableVidIcon from "../../assets/vid.svg";
 
 import "./Room.scss";
 
-
 function Room({ isOwner }) {
-  console.log('in room')
+  console.log("in room");
   const [yourSocketId, setYourSocketId] = useState();
   const [partnerSocketId, setPartnerSocketid] = useState();
 
@@ -32,6 +29,11 @@ function Room({ isOwner }) {
   const [callAccepted, setCallAccepted] = useState(false);
   const [partnerSignal, setPartnerSignal] = useState();
 
+  const [stats, setStats] = useState({
+    yourVid: {},
+    receivingVid: {},
+  });
+
   const yourVideo = useRef();
   const partnerVideo = useRef();
   const socket = useRef();
@@ -41,7 +43,7 @@ function Room({ isOwner }) {
   const { roomname, roomownername } = useParams();
 
   useEffect(() => {
-    console.log("in room")
+    console.log("in room");
     socket.current = io.connect("https://videocall-pwa.glitch.me/");
     // socket.current = io.connect("http://localhost:8000");
 
@@ -126,7 +128,7 @@ function Room({ isOwner }) {
     });
 
     // eslint-disable-next-line
-  }, [streamAudio, streamVideo]);
+  }, [streamAudio, streamVideo, stats]);
 
   const startConversation = () => {
     console.log("initiate the call");
@@ -209,7 +211,13 @@ function Room({ isOwner }) {
   let yourVideoElement;
   if (yourVideoStream) {
     yourVideoElement = (
-      <video className="yourVideo" playsInline ref={yourVideo} autoPlay />
+      <video
+        id="yourVid"
+        className="yourVideo"
+        playsInline
+        ref={yourVideo}
+        autoPlay
+      />
     );
   }
 
@@ -217,7 +225,7 @@ function Room({ isOwner }) {
   if (callAccepted) {
     partnerVideoElement = (
       <video
-        id="test"
+        id="partnerVid"
         className="partnerVideo"
         playsInline
         ref={partnerVideo}
@@ -235,24 +243,31 @@ function Room({ isOwner }) {
     startConversation();
   }
 
-  const test = document.getElementById("test");
-  if (test) {
-    console.log(test.webkitDecodedFrameCount);
-  }
-  const measureFrames = () => {
+  const measureFrames = (vid, vidname) => {
     let timer = 0;
     setInterval(() => {
+      console.log("here");
       timer++;
       let fps;
-      if (test) {
-        fps = test.webkitDecodedFrameCount / timer;
-        console.log("fps", fps);
-        console.log("dropped", test.webkitDroppedFrameCount);
+      if (vid) {
+        fps = vid.webkitDecodedFrameCount / timer;
+        const _stats = { ...stats };
+        if (vidname === "yourVid") {
+          _stats.yourVid.fps = fps;
+          _stats.yourVid.dropped = vid.webkitDroppedFrameCount;
+        } else {
+          _stats.receivingVid.fps = fps;
+          _stats.receivingVid.dropped = vid.webkitDroppedFrameCount;
+        }
+        setStats(_stats);
       }
     }, 1000);
   };
 
-  measureFrames();
+  if (isOwner) {
+    measureFrames(document.getElementById("partnerVid"), "partnerVid");
+    measureFrames(document.getElementById("yourVid"), "yourVid");
+  }
 
   return (
     <motion.div
@@ -276,6 +291,12 @@ function Room({ isOwner }) {
         ))}
       {yourVideoElement}
       {partnerVideoElement}
+      <div className="statsContainer">
+        <div> your vid fps: {stats.yourVid.fps} </div>
+        <div> your vid frame drops: {stats.yourVid.dropped}</div>
+        <div> receiving vid fps: {stats.receivingVid.fps}</div>
+        <div> receiving frame drops: {stats.receivingVid.dropped}</div>{" "}
+      </div>
       <div className="roomControlls">
         <div
           className={
