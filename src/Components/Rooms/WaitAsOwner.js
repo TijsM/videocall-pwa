@@ -1,8 +1,8 @@
 import React, { useRef, useEffect, useState } from "react";
-
+import {copyLink} from '../../helpers'
 import "./Wait.scss";
 
-function WaitAsOwner() {
+function WaitAsOwner({ roomname, roomownername }) {
   const [yourVideoStream, setYourVideoStream] = useState();
   const yourVideo = useRef();
 
@@ -27,15 +27,14 @@ function WaitAsOwner() {
   return (
     <div className="waitContainer">
       <div className="waitHead">
-        <h1>room name is still empty</h1>
+        <h1>{roomname} is still empty</h1>
         <button
           className="highlightedButton"
-          onClick={() => alert("not yet implemented")}
+          onClick={() => copyLink(roomownername, roomname)}
         >
           share link
         </button>
       </div>
-
       {yourVideoElement}
     </div>
   );

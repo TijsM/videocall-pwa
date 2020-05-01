@@ -1,4 +1,4 @@
-.roomContainer{
+.roomContainer {
   height: 100vh;
   background-size: contain;
   background-repeat: no-repeat;
@@ -12,28 +12,43 @@
   position: relative;
 }
 
-video{
+video {
   width: 300px;
 }
 
-.yourVideo{
-  width: 100vW;
+.yourVideo {
+  width: 100vw;
   height: 100vh;
   border-radius: 20px;
 }
 
-.partnerVideo{
+.partnerVideo {
   position: absolute;
   width: 150px;
   bottom: 80px;
   left: 10px;
 }
 
-.roomControlls{
+.roomControlls {
   padding-top: 10px;
   padding-bottom: 10px;
   display: flex;
   justify-content: space-evenly;
   background-color: rgba(0, 0, 0, 0.104);
   width: 100vw;
+}
+
+.roomControllsIconContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  border-radius: 100px;
+}
+
+.selected {
+  background-color: rgba(255, 255, 255, 0.652);
+  img {
+    opacity: 0.5;
+  }
 }

@@ -24,9 +24,10 @@ function Room({ isOwner }) {
   const [roomVisitorId, setRoomVisitorId] = useState();
 
   const [yourVideoStream, setYourVideoStream] = useState();
+  const [streamAudio, setStreamAudio] = useState(false);
+  const [streamVideo, setStreamVideo] = useState(true);
 
   const [callAccepted, setCallAccepted] = useState(false);
-
   const [partnerSignal, setPartnerSignal] = useState();
 
   const yourVideo = useRef();
@@ -42,7 +43,7 @@ function Room({ isOwner }) {
     // socket.current = io.connect("http://localhost:8000");
 
     navigator.mediaDevices
-      .getUserMedia({ video: true, audio: false })
+      .getUserMedia({ video: streamVideo, audio: streamAudio })
       .then((stream) => {
         setYourVideoStream(stream);
         if (yourVideo.current) {
@@ -122,7 +123,7 @@ function Room({ isOwner }) {
     });
 
     // eslint-disable-next-line
-  }, []);
+  }, [streamAudio, streamVideo]);
 
   const startConversation = () => {
     console.log("initiate the call");
@@ -192,6 +193,16 @@ function Room({ isOwner }) {
     }
   };
 
+  const toggleAudio = () => {
+    console.log("in audo");
+    setStreamAudio(!streamAudio);
+  };
+
+  const toggleVideo = () => {
+    console.log("in video");
+    setStreamVideo(!streamVideo);
+  };
+
   let yourVideoElement;
   if (yourVideoStream) {
     yourVideoElement = (
@@ -226,7 +237,7 @@ function Room({ isOwner }) {
     >
       {!callAccepted &&
         (isOwner ? (
-          <WaitAsOwner />
+          <WaitAsOwner roomownername={roomownername} roomname={roomname} />
         ) : (
           <WaitAsVisitor
             partnerSignal={partnerSignal}
@@ -238,9 +249,29 @@ function Room({ isOwner }) {
       {yourVideoElement}
       {partnerVideoElement}
       <div className="roomControlls">
-        <img src={muteIcon} alt="delete icon" />
-        <img onClick={closeCall} src={stopIcon} alt="delete icon" />
-        <img src={disableVidIcon} alt="delete icon" />
+        <div
+          className={
+            streamAudio
+              ? "roomControllsIconContainer"
+              : "roomControllsIconContainer selected"
+          }
+          onClick={toggleAudio}
+        >
+          <img src={muteIcon} alt="mute icon" />
+        </div>
+        <div>
+          <img onClick={closeCall} src={stopIcon} alt="delete icon" />
+        </div>
+        <div
+          className={
+            streamVideo
+              ? "roomControllsIconContainer"
+              : "roomControllsIconContainer selected"
+          }
+          onClick={toggleVideo}
+        >
+          <img src={disableVidIcon} alt="video icon" />
+        </div>
       </div>
     </motion.div>
   );

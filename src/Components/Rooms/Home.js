@@ -3,7 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import { firestore } from "../../firebase";
 import { motion } from "framer-motion";
 import { pageTransition, pageVariant } from "../../Transitions";
-
+import {copyLink} from '../../helpers'
 import "./Home.scss";
 
 import deleteIcon from "../../assets/delete.svg";
@@ -91,18 +91,6 @@ function Home() {
     });
   };
 
-  const copyLink = (owner, room) => {
-    navigator.clipboard
-      .writeText(`http://localhost:3000/visitroom/${owner}/${room}`)
-      .then(() => {
-        console.log("Text copied to clipboard");
-        alert("coppied!! share the coppied link with somebody");
-      })
-      .catch((err) => {
-        console.log("Could not copy text: ", err);
-        alert("ERROR" + err);
-      });
-  };
 
   const logout = () => {
     localStorage.setItem("authData", null);
@@ -224,11 +212,6 @@ function Home() {
           />
           <h2 className="cardText">logout</h2>
         </div>
-
-        {/* <button style={{ marginTop: 200 }} onClick={logout}>
-        LOGOUT
-      </button>
-      <RequestNotifications /> */}
       </section>
     </motion.div>
   );
