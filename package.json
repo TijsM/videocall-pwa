@@ -15,6 +15,7 @@
     "react-scripts": "3.4.1",
     "simple-peer": "^9.6.2",
     "socket.io-client": "^2.3.0",
+    "sweetalert": "^2.1.2",
     "workbox-build": "^5.1.2",
     "workbox-precaching": "^5.1.2"
   },

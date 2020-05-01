@@ -11,6 +11,7 @@ import copyIcon from "../../assets/copy.svg";
 import logoutIllustration from "../../assets/logout.svg";
 import notificationIllustration from "../../assets/notifications.svg";
 import installIllustration from "../../assets/install.svg";
+import swal from "sweetalert";
 
 function Home() {
   const [newRoomName, setNewRoomName] = useState();
@@ -123,6 +124,8 @@ function Home() {
         { merge: true }
       );
     });
+
+    swal("succesfully subscribed to notifications")
   };
 
   const addToHome = () => {

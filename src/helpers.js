@@ -1,5 +1,5 @@
 import { firestore } from "./firebase";
-
+import swal from 'sweetalert'
 export const storeUserInFirestore = (email, userName) => {
   console.log('here')
   firestore
@@ -42,7 +42,7 @@ export const copyLink = (owner, room) => {
     .writeText(`https://videocall-pwa.netlify.app/visitroom/${owner}/${room}`)
     .then(() => {
       console.log("Text copied to clipboard");
-      alert("coppied!! share the coppied link with somebody");
+      swal("we have coppied the shareable link for you. Send it to your friends")
     })
     .catch((err) => {
       console.log("Could not copy text: ", err);
