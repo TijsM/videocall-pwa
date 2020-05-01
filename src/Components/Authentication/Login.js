@@ -9,7 +9,7 @@ import {
   authWithFacebook,
   firestore,
 } from "../../firebase";
-import { storeUserInLocalStorage } from "../../helpers";
+import { storeUserInLocalStorage, storeUserInFirestore } from "../../helpers";
 
 import "./Auth.scss";
 
@@ -22,7 +22,6 @@ function Login() {
   const history = useHistory();
   const [email, setEmail] = useState();
   const [password, setpassword] = useState();
-
 
   const login = (event) => {
     event.preventDefault();
@@ -60,6 +59,14 @@ function Login() {
           data.additionalUserInfo.profile.name
         );
         history.push("/home");
+
+        const isNew = data.additionalUserInfo.isNewUser;
+        if (isNew) {
+          storeUserInFirestore(
+            data.additionalUserInfo.profile.email,
+            data.additionalUserInfo.profile.name
+          );
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -76,6 +83,14 @@ function Login() {
           data.additionalUserInfo.profile.name
         );
         history.push("/home");
+
+        const isNew = data.additionalUserInfo.isNewUser;
+        if (isNew) {
+          storeUserInFirestore(
+            data.additionalUserInfo.profile.email,
+            data.additionalUserInfo.profile.name
+          );
+        }
       })
       .catch((error) => {
         console.error(error);

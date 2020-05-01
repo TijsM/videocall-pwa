@@ -51,10 +51,13 @@ function Register() {
         );
         history.push("/home");
 
-        storeUserInFirestore(
-          data.additionalUserInfo.profile.email,
-          data.additionalUserInfo.profile.name
-        );
+        const isNew = data.additionalUserInfo.isNewUser;
+        if (isNew) {
+          storeUserInFirestore(
+            data.additionalUserInfo.profile.email,
+            data.additionalUserInfo.profile.name
+          );
+        }
       })
 
       .catch((error) => {
@@ -72,10 +75,13 @@ function Register() {
           data.additionalUserInfo.profile.name
         );
         history.push("/home");
-        storeUserInFirestore(
-          data.additionalUserInfo.profile.email,
-          data.additionalUserInfo.profile.name
-        );
+        const isNew = data.additionalUserInfo.isNewUser;
+        if (isNew) {
+          storeUserInFirestore(
+            data.additionalUserInfo.profile.email,
+            data.additionalUserInfo.profile.name
+          );
+        }
       })
       .catch((error) => {
         console.error(error);
