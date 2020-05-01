@@ -28,8 +28,8 @@ function Room({ isOwner }) {
 
   const { roomname, roomownername } = useParams();
   useEffect(() => {
-    socket.current = io.connect("https://videocall-pwa.glitch.me/");
-    // socket.current = io.connect("http://localhost:8000");
+    // socket.current = io.connect("https://videocall-pwa.glitch.me/");
+    socket.current = io.connect("http://localhost:8000");
 
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: false })
@@ -44,20 +44,50 @@ function Room({ isOwner }) {
       setYourSocketId(id);
       if (isOwner) {
         setRoomOwnerId(id);
-        socket.current.emit("setOwnerId", id);
+        socket.current.emit("setOwnerId", { id, roomname, roomownername });
       } else {
         setRoomVisitorId(id);
-        socket.current.emit("setVisitorId", id);
+        socket.current.emit("setVisitorId", { id, roomname, roomownername });
       }
     });
 
     socket.current.on("users", (users) => {
       if (isOwner) {
-        setRoomVisitorId(users.visitorId ? users.visitorId : "not online");
-        setPartnerSocketid(users.visitorId ? users.visitorId : "not online");
+        console.log("users on users emit", users);
+        if (users && users[roomownername] && users[roomownername][roomname]) {
+          console.log("check passed");
+          console.log("check if everything is present, and setup the state");
+          setRoomVisitorId(
+            users[roomownername][roomname].visitorId
+              ? users[roomownername][roomname].visitorId
+              : "not online"
+          );
+          setPartnerSocketid(
+            users[roomownername][roomname].visitorId
+              ? users[roomownername][roomname].visitorId
+              : "not online"
+          );
+        }
+        // setRoomVisitorId(users.visitorId ? users.visitorId : "not online");
+        // setPartnerSocketid(users.visitorId ? users.visitorId : "not online");
       } else {
-        setRoomOwnerId(users.ownerId ? users.ownerId : "not online");
-        setPartnerSocketid(users.ownerId ? users.ownerId : "not online");
+
+        if (users && users[roomownername] && users[roomownername][roomname]) {
+          console.log("check passed");
+          console.log("check if everything is present, and setup the state");
+          setRoomOwnerId(
+            users[roomownername][roomname].ownerId
+              ? users[roomownername][roomname].ownerId
+              : "not online"
+          );
+          setPartnerSocketid(
+            users[roomownername][roomname].ownerId
+              ? users[roomownername][roomname].ownerId
+              : "not online"
+          );
+        }
+        // setRoomOwnerId(users.ownerId ? users.ownerId : "not online");
+        // setPartnerSocketid(users.ownerId ? users.ownerId : "not online");
       }
     });
 
@@ -117,7 +147,7 @@ function Room({ isOwner }) {
     console.log("in acceptCall method");
     setCallAccepted(true);
 
-    console.log('your vid stream', yourVideoStream)
+    console.log("your vid stream", yourVideoStream);
 
     const peer = new Peer({
       initiator: false,
@@ -169,15 +199,16 @@ function Room({ isOwner }) {
       exit="out"
       animate="in"
     >
-      {/* {partnerSignal ? (
-        <button onClick={acceptCall}>start call with room owner</button>
-      ) : null} */}
-
       {!callAccepted ? (
         isOwner ? (
           <WaitAsOwner />
         ) : (
-          <WaitAsVisitor partnerSignal={partnerSignal} roomname={roomname} roomownername={roomownername} acceptCall={acceptCall} />
+          <WaitAsVisitor
+            partnerSignal={partnerSignal}
+            roomname={roomname}
+            roomownername={roomownername}
+            acceptCall={acceptCall}
+          />
         )
       ) : (
         <div></div>
@@ -187,16 +218,6 @@ function Room({ isOwner }) {
       {yourVideoElement}
       <h2>partner video:</h2>
       {partnerVideoElement}
-
-      {/* <h2>dev info</h2>
-      <div>your socket: {yourSocketId}</div>
-      <div>partner socket: {partnerSocketId}</div>
-      <hr></hr>
-      <div>room owner id: {roomOwnerId}</div>
-      <div>room visitor id: {roomVisitorId}</div>
-      <hr></hr>
-      <div>is owner: {isOwner.toString()}</div>
-      <hr></hr> */}
     </motion.div>
   );
 }
