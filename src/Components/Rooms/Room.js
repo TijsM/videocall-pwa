@@ -6,6 +6,13 @@ import { motion } from "framer-motion";
 import { pageTransition, pageVariant } from "../../Transitions";
 import WaitAsOwner from "./WaitAsOwner";
 import WaitAsVisitor from "./WaitAsVisitor";
+import { useHistory } from "react-router-dom";
+
+import stopIcon from "../../assets/stop.svg";
+import muteIcon from "../../assets/mute.svg";
+import enableMicIcon from "../../assets/mic.svg";
+import disableVidIcon from "../../assets/disableVideo.svg";
+import enableVidIcon from "../../assets/vid.svg";
 
 import "./Room.scss";
 
@@ -26,10 +33,13 @@ function Room({ isOwner }) {
   const partnerVideo = useRef();
   const socket = useRef();
 
+  const history = useHistory();
+
   const { roomname, roomownername } = useParams();
+
   useEffect(() => {
-    // socket.current = io.connect("https://videocall-pwa.glitch.me/");
-    socket.current = io.connect("http://localhost:8000");
+    socket.current = io.connect("https://videocall-pwa.glitch.me/");
+    // socket.current = io.connect("http://localhost:8000");
 
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: false })
@@ -69,7 +79,6 @@ function Room({ isOwner }) {
           );
         }
       } else {
-
         if (users && users[roomownername] && users[roomownername][roomname]) {
           console.log("check passed");
           console.log("check if everything is present, and setup the state");
@@ -103,15 +112,13 @@ function Room({ isOwner }) {
 
     socket.current.on("hey", (data) => {
       console.log("in hey", data.signal);
-      console.log(data)
-      if(data.users[roomownername][roomname].ownerId){
-        console.log('chekc')
+      console.log(data);
+      if (data.users[roomownername][roomname].ownerId) {
+        console.log("chekc");
         setPartnerSignal(data.signal);
+      } else {
+        console.log("no check");
       }
-      else{
-        console.log('no check')
-      }
-      
     });
 
     // eslint-disable-next-line
@@ -176,14 +183,27 @@ function Room({ isOwner }) {
     peer.signal(partnerSignal);
   };
 
+  const closeCall = () => {
+    console.log("here");
+    if (isOwner) {
+      history.push("/home");
+    } else {
+      window.location.reload();
+    }
+  };
+
   let yourVideoElement;
   if (yourVideoStream) {
-    yourVideoElement = <video playsInline ref={yourVideo} autoPlay />;
+    yourVideoElement = (
+      <video className="yourVideo" playsInline ref={yourVideo} autoPlay />
+    );
   }
 
   let partnerVideoElement;
   if (callAccepted) {
-    partnerVideoElement = <video playsInline ref={partnerVideo} autoPlay />;
+    partnerVideoElement = (
+      <video className="partnerVideo" playsInline ref={partnerVideo} autoPlay />
+    );
   }
 
   if (
@@ -202,9 +222,10 @@ function Room({ isOwner }) {
       initial="initial"
       exit="out"
       animate="in"
+      className="roomContainer"
     >
-      {!callAccepted ? (
-        isOwner ? (
+      {!callAccepted &&
+        (isOwner ? (
           <WaitAsOwner />
         ) : (
           <WaitAsVisitor
@@ -213,15 +234,14 @@ function Room({ isOwner }) {
             roomownername={roomownername}
             acceptCall={acceptCall}
           />
-        )
-      ) : (
-        <div></div>
-      )}
-
-      <h2>your video:</h2>
+        ))}
       {yourVideoElement}
-      <h2>partner video:</h2>
       {partnerVideoElement}
+      <div className="roomControlls">
+        <img src={muteIcon} alt="delete icon" />
+        <img onClick={closeCall} src={stopIcon} alt="delete icon" />
+        <img src={disableVidIcon} alt="delete icon" />
+      </div>
     </motion.div>
   );
 }
