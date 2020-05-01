@@ -17,16 +17,17 @@ video {
 }
 
 .yourVideo {
-  width: 100vw;
-  height: 100vh;
-  border-radius: 20px;
-}
-
-.partnerVideo {
   position: absolute;
   width: 150px;
   bottom: 80px;
   left: 10px;
+  z-index: 2;
+  border-radius: 20px;
+}
+
+.partnerVideo {
+  width: 100vw;
+  height: 100vh;
 }
 
 .roomControlls {

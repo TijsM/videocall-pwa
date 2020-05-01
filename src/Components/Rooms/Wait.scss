@@ -12,23 +12,32 @@
   box-sizing: border-box;
   position: relative;
 
-  h1{
+
+  h1 {
     text-align: left;
     color: white;
   }
 
-  button{
+  button {
     width: 200px;
   }
 }
 
-.waitHead{
+.waitHead {
   margin-left: 20px;
 }
 
-.waitVideo{
-  bottom: 30px;
-  border-radius: 20px;
-  margin: auto;
-  z-index: 2;
+.waitIllustration {
+  background-image: url("../../assets/wait.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 85%;
+  margin-left: 7.5%;
+  bottom: 150;
+  height: 40%;
+  z-index: 1;
+  margin-bottom: 100px;
+  position: relative;
+  
 }
+

@@ -3,26 +3,8 @@ import {copyLink} from '../../helpers'
 import "./Wait.scss";
 
 function WaitAsOwner({ roomname, roomownername }) {
-  const [yourVideoStream, setYourVideoStream] = useState();
-  const yourVideo = useRef();
 
-  useEffect(() => {
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: false })
-      .then((stream) => {
-        setYourVideoStream(stream);
-        if (yourVideo.current) {
-          yourVideo.current.srcObject = stream;
-        }
-      });
-  }, []);
 
-  let yourVideoElement;
-  if (yourVideoStream) {
-    yourVideoElement = (
-      <video playsInline className="waitVideo" ref={yourVideo} autoPlay />
-    );
-  }
 
   return (
     <div className="waitContainer">
@@ -35,7 +17,9 @@ function WaitAsOwner({ roomname, roomownername }) {
           share link
         </button>
       </div>
-      {yourVideoElement}
+      <div className="waitIllustration"></div>
+
+      {/* {yourVideoElement} */}
     </div>
   );
 }

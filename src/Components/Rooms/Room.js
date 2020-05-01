@@ -16,7 +16,9 @@ import enableVidIcon from "../../assets/vid.svg";
 
 import "./Room.scss";
 
+
 function Room({ isOwner }) {
+  console.log('in room')
   const [yourSocketId, setYourSocketId] = useState();
   const [partnerSocketId, setPartnerSocketid] = useState();
 
@@ -39,6 +41,7 @@ function Room({ isOwner }) {
   const { roomname, roomownername } = useParams();
 
   useEffect(() => {
+    console.log("in room")
     socket.current = io.connect("https://videocall-pwa.glitch.me/");
     // socket.current = io.connect("http://localhost:8000");
 
@@ -206,20 +209,20 @@ function Room({ isOwner }) {
   let yourVideoElement;
   if (yourVideoStream) {
     yourVideoElement = (
-      <video
-        
-        className="yourVideo"
-        playsInline
-        ref={yourVideo}
-        autoPlay
-      />
+      <video className="yourVideo" playsInline ref={yourVideo} autoPlay />
     );
   }
 
   let partnerVideoElement;
   if (callAccepted) {
     partnerVideoElement = (
-      <video id="test" className="partnerVideo" playsInline ref={partnerVideo} autoPlay />
+      <video
+        id="test"
+        className="partnerVideo"
+        playsInline
+        ref={partnerVideo}
+        autoPlay
+      />
     );
   }
 
@@ -243,13 +246,13 @@ function Room({ isOwner }) {
       let fps;
       if (test) {
         fps = test.webkitDecodedFrameCount / timer;
-        console.log('fps', fps);
-        console.log('dropped', test.webkitDroppedFrameCount)
+        console.log("fps", fps);
+        console.log("dropped", test.webkitDroppedFrameCount);
       }
     }, 1000);
   };
 
-  // measureFrames();
+  measureFrames();
 
   return (
     <motion.div

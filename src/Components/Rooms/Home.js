@@ -3,7 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import { firestore } from "../../firebase";
 import { motion } from "framer-motion";
 import { pageTransition, pageVariant } from "../../Transitions";
-import {copyLink} from '../../helpers'
+import { copyLink } from "../../helpers";
 import "./Home.scss";
 
 import deleteIcon from "../../assets/delete.svg";
@@ -39,7 +39,11 @@ function Home() {
       setUser(_user);
       fetchRooms();
     } else {
-      history.push("/login");
+      const url = window.location.href;
+      const urlArr = url.split("/");
+      if (urlArr[3] !== "visitroom") {
+        history.push("/login");
+      }
     }
 
     window.addEventListener("beforeinstallprompt", (event) => {
@@ -92,7 +96,6 @@ function Home() {
     });
   };
 
-
   const logout = () => {
     localStorage.setItem("authData", null);
     localStorage.setItem("user", null);
@@ -125,7 +128,7 @@ function Home() {
       );
     });
 
-    swal("succesfully subscribed to notifications")
+    swal("succesfully subscribed to notifications");
   };
 
   const addToHome = () => {
