@@ -68,8 +68,6 @@ function Room({ isOwner }) {
               : "not online"
           );
         }
-        // setRoomVisitorId(users.visitorId ? users.visitorId : "not online");
-        // setPartnerSocketid(users.visitorId ? users.visitorId : "not online");
       } else {
 
         if (users && users[roomownername] && users[roomownername][roomname]) {
@@ -86,8 +84,6 @@ function Room({ isOwner }) {
               : "not online"
           );
         }
-        // setRoomOwnerId(users.ownerId ? users.ownerId : "not online");
-        // setPartnerSocketid(users.ownerId ? users.ownerId : "not online");
       }
     });
 
@@ -107,7 +103,15 @@ function Room({ isOwner }) {
 
     socket.current.on("hey", (data) => {
       console.log("in hey", data.signal);
-      setPartnerSignal(data.signal);
+      console.log(data)
+      if(data.users[roomownername][roomname].ownerId){
+        console.log('chekc')
+        setPartnerSignal(data.signal);
+      }
+      else{
+        console.log('no check')
+      }
+      
     });
 
     // eslint-disable-next-line
