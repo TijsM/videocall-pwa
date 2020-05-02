@@ -30,8 +30,14 @@ function Room({ isOwner }) {
   const [partnerSignal, setPartnerSignal] = useState();
 
   const [stats, setStats] = useState({
-    yourVid: {},
-    receivingVid: {},
+    yourVid: {
+      fps: 0,
+      dropped: 0
+    },
+    receivingVid: {
+      fps: 0,
+      dropped: 0
+    },
   });
 
   const yourVideo = useRef();
@@ -127,8 +133,14 @@ function Room({ isOwner }) {
       }
     });
 
+    if (isOwner) {
+      console.log('useeffect')
+      measureFrames(document.getElementById("partnerVid"), "partnerVid");
+      measureFrames(document.getElementById("yourVid"), "yourVid");
+    }
+
     // eslint-disable-next-line
-  }, [streamAudio, streamVideo, stats]);
+  }, [streamAudio, streamVideo]);
 
   const startConversation = () => {
     console.log("initiate the call");
@@ -246,7 +258,6 @@ function Room({ isOwner }) {
   const measureFrames = (vid, vidname) => {
     let timer = 0;
     setInterval(() => {
-      console.log("here");
       timer++;
       let fps;
       if (vid) {
@@ -255,19 +266,19 @@ function Room({ isOwner }) {
         if (vidname === "yourVid") {
           _stats.yourVid.fps = fps;
           _stats.yourVid.dropped = vid.webkitDroppedFrameCount;
+          _stats.yourVid.resolution = `${vid.videoWidth}x${vid.videoHeight}`
         } else {
           _stats.receivingVid.fps = fps;
           _stats.receivingVid.dropped = vid.webkitDroppedFrameCount;
+          _stats.receivingVid.resolution = `${vid.videoWidth}x${vid.videoHeight}`
         }
+        _stats.timePassed = timer
         setStats(_stats);
       }
     }, 1000);
   };
 
-  if (isOwner) {
-    measureFrames(document.getElementById("partnerVid"), "partnerVid");
-    measureFrames(document.getElementById("yourVid"), "yourVid");
-  }
+  
 
   return (
     <motion.div
@@ -292,10 +303,14 @@ function Room({ isOwner }) {
       {yourVideoElement}
       {partnerVideoElement}
       <div className="statsContainer">
-        <div> your vid fps: {stats.yourVid.fps} </div>
-        <div> your vid frame drops: {stats.yourVid.dropped}</div>
-        <div> receiving vid fps: {stats.receivingVid.fps}</div>
-        <div> receiving frame drops: {stats.receivingVid.dropped}</div>{" "}
+        <div> duration: {stats.timePassed} </div>
+        <div> your video fps: {stats.yourVid.fps.toFixed(2)} </div>
+        <div> your video frame drops: {stats.yourVid.dropped}</div>
+        <div> your video resolution: {stats.yourVid.resolution}</div>
+        <div> receiving video fps: {stats.receivingVid.fps.toFixed(2)}</div>
+        <div> receiving frame drops: {stats.receivingVid.dropped}</div>
+        <div> receiving video resolution: {stats.receivingVid.resolution}</div>
+
       </div>
       <div className="roomControlls">
         <div
