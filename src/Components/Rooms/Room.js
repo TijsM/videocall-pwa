@@ -20,7 +20,7 @@ function Room({ isOwner }) {
   const [partnerSocketId, setPartnerSocketid] = useState();
 
   const [roomOwnerId, setRoomOwnerId] = useState();
-  const [roomVisitorId, setRoomVisitorId] = useState();
+  const [, setRoomVisitorId] = useState();
 
   const [yourVideoStream, setYourVideoStream] = useState();
   const [streamAudio, setStreamAudio] = useState(false);

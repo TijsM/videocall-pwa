@@ -104,12 +104,35 @@ function Home() {
 
   const RequestNotifications = async () => {
     console.log("requesting notifications");
+    if ("serviceWorker" in navigator === false) {
+      swal(
+        "not supported ",
+        "Your current browser does not support push notifications",
+        "error"
+      );
+    }
+    if('push' in navigator === false){
+      swal(
+        "not supported ",
+        "Your current browser does not support push notifications",
+        "error"
+      );
+    }
+
     const sw = await navigator.serviceWorker.ready;
-    let pushSub = await sw.pushManager.subscribe({
-      userVisibleOnly: true,
-      applicationServerKey:
-        "BEV0UUVQ_akT0b0168P6JVwebBpOqLtbl7-kejmlUijGA01VtfkXR7irgn9yLwZhYvO3FZVnn_7mVyRd9Jv85Zw",
-    });
+    let pushSub = await sw.pushManager
+      .subscribe({
+        userVisibleOnly: true,
+        applicationServerKey:
+          "BEV0UUVQ_akT0b0168P6JVwebBpOqLtbl7-kejmlUijGA01VtfkXR7irgn9yLwZhYvO3FZVnn_7mVyRd9Jv85Zw",
+      })
+      .catch(() => {
+        swal(
+          "not supported ",
+          "Your current browser does not support push notifications",
+          "error"
+        );
+      });
     console.log("here");
     //store this push object (the subscription) in the database with the user
     console.log(JSON.stringify(pushSub));
