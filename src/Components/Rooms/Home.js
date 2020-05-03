@@ -161,7 +161,11 @@ function Home() {
       prompt.prompt();
     } else {
       console.log("state", prompt);
-      console.log("installing is not supported");
+      swal(
+        "not supported ",
+        "can't install the application at the moment",
+        "error"
+      );
     }
   };
 

@@ -46,7 +46,7 @@ export const copyLink = (owner, room) => {
     })
     .catch((err) => {
       console.log("Could not copy text: ", err);
-      alert("ERROR" + err);
+      alert(`you can share this link: https://videocall-pwa.netlify.app/visitroom/${owner}/${room}`);
     });
   }
 };

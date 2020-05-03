@@ -17,6 +17,7 @@ import fingerAuth from "../../assets/finger.svg";
 import google from "../../assets/google.svg";
 import facebook from "../../assets/facebook.svg";
 import apple from "../../assets/apple.svg";
+import swal from "sweetalert";
 
 function Login() {
   const history = useHistory();
@@ -139,7 +140,11 @@ function Login() {
             alt="facebook authenticaitons"
           />
         </button>
-        <button onClick={() => alert("Sorry - not yet available")}>
+        <button onClick={() =>  swal(
+          "not supported",
+          "Apple authentication is still in development - you can use Google and facebook though",
+          "warning"
+        )}>
           <img className="socialIcon" src={apple} alt="apple authenticaitons" />
         </button>
       </div>
