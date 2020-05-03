@@ -23,7 +23,7 @@ function Room({ isOwner }) {
   const [, setRoomVisitorId] = useState();
 
   const [yourVideoStream, setYourVideoStream] = useState();
-  const [streamAudio, setStreamAudio] = useState(false);
+  const [streamAudio, setStreamAudio] = useState(true);
   const [streamVideo, setStreamVideo] = useState(true);
 
   const [callAccepted, setCallAccepted] = useState(false);
@@ -32,11 +32,11 @@ function Room({ isOwner }) {
   const [stats, setStats] = useState({
     yourVid: {
       fps: 0,
-      dropped: 0
+      dropped: 0,
     },
     receivingVid: {
       fps: 0,
-      dropped: 0
+      dropped: 0,
     },
   });
 
@@ -122,7 +122,6 @@ function Room({ isOwner }) {
       });
     }
 
-  
     socket.current.on("hey", (data) => {
       console.log("in hey", data.signal);
       console.log(data);
@@ -135,7 +134,7 @@ function Room({ isOwner }) {
     });
 
     if (isOwner) {
-      console.log('useeffect')
+      console.log("useeffect");
       measureFrames(document.getElementById("partnerVid"), "partnerVid");
       measureFrames(document.getElementById("yourVid"), "yourVid");
     }
@@ -225,6 +224,7 @@ function Room({ isOwner }) {
   if (yourVideoStream) {
     yourVideoElement = (
       <video
+        muted
         id="yourVid"
         className="yourVideo"
         playsInline
@@ -267,19 +267,17 @@ function Room({ isOwner }) {
         if (vidname === "yourVid") {
           _stats.yourVid.fps = fps;
           _stats.yourVid.dropped = vid.webkitDroppedFrameCount;
-          _stats.yourVid.resolution = `${vid.videoWidth}x${vid.videoHeight}`
+          _stats.yourVid.resolution = `${vid.videoWidth}x${vid.videoHeight}`;
         } else {
           _stats.receivingVid.fps = fps;
           _stats.receivingVid.dropped = vid.webkitDroppedFrameCount;
-          _stats.receivingVid.resolution = `${vid.videoWidth}x${vid.videoHeight}`
+          _stats.receivingVid.resolution = `${vid.videoWidth}x${vid.videoHeight}`;
         }
-        _stats.timePassed = timer
+        _stats.timePassed = timer;
         setStats(_stats);
       }
     }, 1000);
   };
-
-  
 
   return (
     <motion.div
@@ -311,7 +309,6 @@ function Room({ isOwner }) {
         <div> receiving video fps: {stats.receivingVid.fps.toFixed(2)}</div>
         <div> receiving frame drops: {stats.receivingVid.dropped}</div>
         <div> receiving video resolution: {stats.receivingVid.resolution}</div>
-
       </div>
       <div className="roomControlls">
         <div

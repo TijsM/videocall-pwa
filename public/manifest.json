@@ -1,8 +1,8 @@
 {
   "name": "Videocall-pwa",
   "short_name": "Videocall",
-  "theme_color": "#FF5376",
-  "background_color": "#242154",
+  "theme_color": "#242154",
+  "background_color": "#FF5376",
   "display": "standalone",
   "orientation": "portrait",
   "Scope": "/",
