@@ -135,8 +135,8 @@ function Room({ isOwner }) {
 
     if (isOwner) {
       console.log("useeffect");
-      measureFrames(document.getElementById("partnerVid"), "partnerVid");
-      measureFrames(document.getElementById("yourVid"), "yourVid");
+      // measureFrames(document.getElementById("partnerVid"), "partnerVid");
+      // measureFrames(document.getElementById("yourVid"), "yourVid");
     }
 
     // eslint-disable-next-line
