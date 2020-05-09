@@ -26,14 +26,14 @@ function SendNotificationsToAll() {
       <h1>Send a notification to all the users </h1>
       <input
         onChange={(val) => setTitle(val.target.value)}
-        placeholder="title"
+        placeholder="Title"
       ></input>
       <textarea
         rows={4}
         onChange={(val) => setBody(val.target.value)}
-        placeholder="body"
+        placeholder="Notification body"
       ></textarea>
-      <button onClick={sendNotification}>send notification</button>
+      <button className='sendNotidButton' onClick={sendNotification}>send notification</button>
     </div>
   );
 }
