@@ -301,7 +301,7 @@ function Room({ isOwner }) {
         ))}
       {yourVideoElement}
       {partnerVideoElement}
-      <div className="statsContainer">
+      {/* <div className="statsContainer">
         <div> duration: {stats.timePassed} </div>
         <div> your video fps: {stats.yourVid.fps.toFixed(2)} </div>
         <div> your video frame drops: {stats.yourVid.dropped}</div>
@@ -309,7 +309,7 @@ function Room({ isOwner }) {
         <div> receiving video fps: {stats.receivingVid.fps.toFixed(2)}</div>
         <div> receiving frame drops: {stats.receivingVid.dropped}</div>
         <div> receiving video resolution: {stats.receivingVid.resolution}</div>
-      </div>
+      </div> */}
       <div className="roomControlls">
         <div
           className={

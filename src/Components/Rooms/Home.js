@@ -153,7 +153,6 @@ function Home() {
 
     swal("succesfully subscribed to notifications");
   };
-
   const addToHome = () => {
     console.log("in install, the state is", prompt);
     if (prompt) {
