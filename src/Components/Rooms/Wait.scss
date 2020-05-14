@@ -41,3 +41,14 @@
   
 }
 
+@media only screen and (min-width: 600px) {
+  .waitContainer{
+    background-image: url('../../assets/backg3_big.svg');
+  }
+}
+
+@media only screen and (min-width: 1000px) {
+  .waitContainer{
+    background-position-y: -100px;    
+  }
+}
