@@ -9,10 +9,11 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100vh;
-  box-sizing: border-box;
   position: relative;
-
+  min-height: 100vh; //fallback
+  min-height: -webkit-fill-available;
+  box-sizing: border-box;
+  margin-bottom: 200px;
 }
 
 .authIllustration{
@@ -35,8 +36,7 @@
 
 .socialsLogin{
   margin-left: 20px;
-  margin-bottom: 75px;
-  bottom: 75px;
+  margin-bottom: 40px;
   .socialIcon{
     height: 15px;
   }
