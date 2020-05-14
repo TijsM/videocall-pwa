@@ -29,6 +29,8 @@ function Room({ isOwner }) {
   const [callAccepted, setCallAccepted] = useState(false);
   const [partnerSignal, setPartnerSignal] = useState();
 
+  const [displayStats] = useState(false);
+
   const [stats, setStats] = useState({
     yourVid: {
       fps: 0,
@@ -133,10 +135,9 @@ function Room({ isOwner }) {
       }
     });
 
-    if (isOwner) {
-      console.log("useeffect");
-      // measureFrames(document.getElementById("partnerVid"), "partnerVid");
-      // measureFrames(document.getElementById("yourVid"), "yourVid");
+    if (isOwner && displayStats) {
+      measureFrames(document.getElementById("partnerVid"), "partnerVid");
+      measureFrames(document.getElementById("yourVid"), "yourVid");
     }
 
     // eslint-disable-next-line
@@ -279,6 +280,19 @@ function Room({ isOwner }) {
     }, 1000);
   };
 
+  let statsContainer = null;
+  statsContainer = displayStats && (
+    <div className="statsContainer">
+      <div> duration: {stats.timePassed} </div>
+      <div> your video fps: {stats.yourVid.fps.toFixed(2)} </div>
+      <div> your video frame drops: {stats.yourVid.dropped}</div>
+      <div> your video resolution: {stats.yourVid.resolution}</div>
+      <div> receiving video fps: {stats.receivingVid.fps.toFixed(2)}</div>
+      <div> receiving frame drops: {stats.receivingVid.dropped}</div>
+      <div> receiving video resolution: {stats.receivingVid.resolution}</div>
+    </div>
+  );
+
   return (
     <motion.div
       variants={pageVariant}
@@ -301,15 +315,7 @@ function Room({ isOwner }) {
         ))}
       {yourVideoElement}
       {partnerVideoElement}
-      {/* <div className="statsContainer">
-        <div> duration: {stats.timePassed} </div>
-        <div> your video fps: {stats.yourVid.fps.toFixed(2)} </div>
-        <div> your video frame drops: {stats.yourVid.dropped}</div>
-        <div> your video resolution: {stats.yourVid.resolution}</div>
-        <div> receiving video fps: {stats.receivingVid.fps.toFixed(2)}</div>
-        <div> receiving frame drops: {stats.receivingVid.dropped}</div>
-        <div> receiving video resolution: {stats.receivingVid.resolution}</div>
-      </div> */}
+      {statsContainer}
       <div className="roomControlls">
         <div
           className={
