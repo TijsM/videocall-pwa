@@ -15,7 +15,6 @@ import disableVidIcon from "../../assets/disableVideo.svg";
 import "./Room.scss";
 
 function Room({ isOwner }) {
-  console.log("in room");
   const [yourSocketId, setYourSocketId] = useState();
   const [partnerSocketId, setPartnerSocketid] = useState();
 
@@ -55,9 +54,11 @@ function Room({ isOwner }) {
     socket.current = io.connect("https://videocall-pwa.glitch.me/");
     // socket.current = io.connect("http://localhost:8000");
 
+    let _localStream;
     navigator.mediaDevices
       .getUserMedia({ video: streamVideo, audio: streamAudio })
       .then((stream) => {
+        _localStream = stream
         setYourVideoStream(stream);
         if (yourVideo.current) {
           yourVideo.current.srcObject = stream;
@@ -138,6 +139,13 @@ function Room({ isOwner }) {
     if (isOwner && displayStats) {
       measureFrames(document.getElementById("partnerVid"), "partnerVid");
       measureFrames(document.getElementById("yourVid"), "yourVid");
+    }
+
+    return () => {
+      _localStream.getTracks().forEach(function(track) {
+        console.log('in track loop')
+        track.stop();
+      });
     }
 
     // eslint-disable-next-line
