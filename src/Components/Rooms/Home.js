@@ -59,20 +59,25 @@ function Home() {
     event.preventDefault();
     console.log("creating", newRoomName);
 
-    const userRef = firestore.collection("users").doc(user.email);
-    let _rooms;
-    userRef.get().then((prom) => {
-      _rooms = prom.data().rooms;
-      _rooms.push(newRoomName);
-      setRooms(_rooms);
-      userRef.set(
-        {
-          rooms: _rooms,
-        },
-        { merge: true }
-      );
-    });
-    setNewRoomName("");
+    if(!newRoomName || newRoomName===''){
+      swal('roomname should not be empty')
+    }else{
+      const userRef = firestore.collection("users").doc(user.email);
+      let _rooms;
+      userRef.get().then((prom) => {
+        _rooms = prom.data().rooms;
+        _rooms.push(newRoomName);
+        setRooms(_rooms);
+        userRef.set(
+          {
+            rooms: _rooms,
+          },
+          { merge: true }
+        );
+      });
+      setNewRoomName("");
+    }
+   
   };
 
   const removeRoom = (room) => {
@@ -107,14 +112,14 @@ function Home() {
     if ("serviceWorker" in navigator === false) {
       swal(
         "not supported ",
-        "Your current browser does not support push notifications",
+        "Your browser does not support push notifications",
         "error"
       );
     }
     if('push' in navigator === false){
       swal(
         "not supported ",
-        "Your current browser does not support push notifications",
+        "Your browser does not support push notifications",
         "error"
       );
     }
@@ -129,7 +134,7 @@ function Home() {
       .catch(() => {
         swal(
           "not supported ",
-          "Your current browser does not support push notifications",
+          "Your browser does not support push notifications",
           "error"
         );
       });
@@ -162,7 +167,7 @@ function Home() {
       console.log("state", prompt);
       swal(
         "not supported ",
-        "can't install the application at the moment",
+        "can't install the application at the moment - you can manually install it from the site settings",
         "error"
       );
     }
@@ -226,7 +231,7 @@ function Home() {
             src={installIllustration}
             alt="illustration"
           />
-          <h2 className="cardText">add to homescreen</h2>
+          <h2 className="cardText">add app to homescreen</h2>
         </div>
         <div className="card" onClick={RequestNotifications}>
           <img
@@ -234,7 +239,7 @@ function Home() {
             src={notificationIllustration}
             alt="illustration"
           />
-          <h2 className="cardText">get notifications</h2>
+          <h2 className="cardText">get notifications when somebody is in your room </h2>
         </div>
         <div className="card" onClick={logout}>
           <img

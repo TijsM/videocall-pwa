@@ -53,6 +53,10 @@ button{
   color: $secondary;
 }
 
+button:focus{
+  outline: none;
+}
+
 
 
 a{
