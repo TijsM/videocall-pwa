@@ -167,8 +167,8 @@ function Home() {
       console.log("state", prompt);
       swal(
         "not supported ",
-        "can't install the application at the moment - you can manually install it from the site settings",
-        "error"
+        "can't automatically install the app. If you're on IOS, click on share, and click add to home screen",
+        "warning"
       );
     }
   };
