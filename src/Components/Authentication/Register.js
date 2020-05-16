@@ -34,6 +34,8 @@ function Register() {
         history.push("/home");
 
         storeUserInFirestore(email, userName);
+        window.location.reload()
+
       })
       .catch((error) => {
         console.error(error);
@@ -58,6 +60,7 @@ function Register() {
             data.additionalUserInfo.profile.name
           );
         }
+        window.location.reload()
       })
 
       .catch((error) => {
@@ -82,6 +85,7 @@ function Register() {
             data.additionalUserInfo.profile.name
           );
         }
+        window.location.reload()
       })
       .catch((error) => {
         console.error(error);
