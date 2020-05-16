@@ -29,7 +29,7 @@ function Home() {
           _user.email
       );
       const user = await userPromise.json();
-      const _rooms = user.fields.rooms.arrayValue.values.map((room) => {
+      const _rooms = user.fields?.rooms?.arrayValue.values.map((room) => {
         return room.stringValue;
       });
       setRooms(_rooms);
@@ -166,8 +166,8 @@ function Home() {
     } else {
       console.log("state", prompt);
       swal(
-        "not supported ",
-        "can't automatically install the app. If you're on IOS, click on share, and click add to home screen",
+        "not supported add it manually ",
+        "Click on the 'share' icon on the bottom of the screen, click on 'add to homescreen'",
         "warning"
       );
     }

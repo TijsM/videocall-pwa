@@ -12,6 +12,7 @@ export const storeUserInFirestore = (email, userName) => {
     })
     .then((docref) => {
       console.log("written to firestore with id: ", docref);
+      window.location.reload()
     })
     .catch((err) => {
       console.error(err);

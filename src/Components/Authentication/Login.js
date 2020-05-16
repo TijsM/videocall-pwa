@@ -44,7 +44,6 @@ function Login() {
           });
 
         history.push("/home");
-        window.location.reload()
         })
       .catch((error) => {
         console.error(error);
@@ -70,8 +69,6 @@ function Login() {
             data.additionalUserInfo.profile.name
           );
         }
-
-        window.location.reload()
       })
       .catch((error) => {
         console.error(error);
@@ -96,8 +93,6 @@ function Login() {
             data.additionalUserInfo.profile.name
           );
         }
-
-        window.location.reload()
       })
       .catch((error) => {
         console.error(error);

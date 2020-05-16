@@ -31,11 +31,8 @@ function Register() {
         console.log("authdata", data);
         localStorage.setItem("authData", JSON.stringify(data));
         storeUserInLocalStorage(email, userName);
-        history.push("/home");
-
         storeUserInFirestore(email, userName);
-        window.location.reload()
-
+        history.push("/home");
       })
       .catch((error) => {
         console.error(error);
@@ -44,24 +41,23 @@ function Register() {
 
   const signUpWithGoogle = () => {
     authWithGoogle()
-      .then((data) => {
-        console.log("authdata", data);
-        localStorage.setItem("authData", JSON.stringify(data));
-        storeUserInLocalStorage(
+    .then((data) => {
+      console.log("authdata", data);
+      localStorage.setItem("authData", JSON.stringify(data));
+      storeUserInLocalStorage(
+        data.additionalUserInfo.profile.email,
+        data.additionalUserInfo.profile.name
+      );
+      history.push("/home");
+
+      const isNew = data.additionalUserInfo.isNewUser;
+      if (isNew) {
+        storeUserInFirestore(
           data.additionalUserInfo.profile.email,
           data.additionalUserInfo.profile.name
         );
-        history.push("/home");
-
-        const isNew = data.additionalUserInfo.isNewUser;
-        if (isNew) {
-          storeUserInFirestore(
-            data.additionalUserInfo.profile.email,
-            data.additionalUserInfo.profile.name
-          );
-        }
-        window.location.reload()
-      })
+      }
+    })
 
       .catch((error) => {
         console.error(error);
@@ -85,7 +81,6 @@ function Register() {
             data.additionalUserInfo.profile.name
           );
         }
-        window.location.reload()
       })
       .catch((error) => {
         console.error(error);
