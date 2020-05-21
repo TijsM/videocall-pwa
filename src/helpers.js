@@ -1,7 +1,7 @@
 import { firestore } from "./firebase";
 import swal from 'sweetalert'
 export const storeUserInFirestore = (email, userName) => {
-  console.log('here')
+  console.log('in store in firestore')
   firestore
     .collection("users").doc(email)
     .set({
@@ -10,11 +10,12 @@ export const storeUserInFirestore = (email, userName) => {
       rooms:[],
       notificationSubscription:null
     })
-    .then((docref) => {
-      console.log("written to firestore with id: ", docref);
+    .then(() => {
+      console.log("written to firestore");
       window.location.reload()
     })
     .catch((err) => {
+      console.log('storing user in fb went wrong')
       console.error(err);
     });
 };

@@ -29,7 +29,8 @@ function Home() {
           _user.email
       );
       const user = await userPromise.json();
-      const _rooms = user.fields?.rooms?.arrayValue.values.map((room) => {
+      console.log(user)
+      const _rooms = user.fields?.rooms?.arrayValue?.values?.map((room) => {
         return room.stringValue;
       });
       setRooms(_rooms);
