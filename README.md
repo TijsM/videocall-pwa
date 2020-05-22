@@ -5,7 +5,7 @@ This application is a basic videocall application.
 * A2HS
 * static caching
 * dynamic caching
-* auth withg google/ facebook/
+* auth with google/ facebook/
 * push notifications
 * share API
 * clipboard API
